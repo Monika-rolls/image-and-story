@@ -1,4 +1,4 @@
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { Award, GraduationCap, Zap } from "lucide-react";
 
@@ -50,21 +50,37 @@ const AboutSection = () => {
         </motion.div>
 
         <motion.div style={{ y: cardsY }} className="grid md:grid-cols-3 gap-6">
-          {cards.map((item, i) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, scale: 0.5, rotateX: 45 }}
-              animate={isInView ? { opacity: 1, scale: 1, rotateX: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.4 + i * 0.2, type: "spring", stiffness: 80 }}
-              whileHover={{ y: -8, boxShadow: "0 0 25px hsl(175, 80%, 50%, 0.2)" }}
-              className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-colors group"
-              style={{ perspective: "800px" }}
-            >
-              <item.icon className="w-8 h-8 text-primary mb-4 group-hover:drop-shadow-[0_0_8px_hsl(175,80%,50%,0.5)] transition-all" />
-              <h4 className="font-heading text-lg font-semibold text-foreground mb-2">{item.title}</h4>
-              <p className="font-body text-sm text-muted-foreground">{item.desc}</p>
-            </motion.div>
-          ))}
+          {cards.map((item, i) => {
+            const cardX = useMotionValue(0);
+            const cardY = useMotionValue(0);
+            const rotateX = useSpring(useTransform(cardY, [-0.5, 0.5], [10, -10]), { stiffness: 100, damping: 15 });
+            const rotateY = useSpring(useTransform(cardX, [-0.5, 0.5], [-10, 10]), { stiffness: 100, damping: 15 });
+
+            const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              cardX.set((e.clientX - rect.left) / rect.width - 0.5);
+              cardY.set((e.clientY - rect.top) / rect.height - 0.5);
+            };
+            const handleMouseLeave = () => { cardX.set(0); cardY.set(0); };
+
+            return (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, scale: 0.5, rotateX: 45 }}
+                animate={isInView ? { opacity: 1, scale: 1, rotateX: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.4 + i * 0.2, type: "spring", stiffness: 80 }}
+                style={{ rotateX, rotateY, transformPerspective: 800 }}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                whileHover={{ y: -8, boxShadow: "0 0 25px hsl(175, 80%, 50%, 0.2)" }}
+                className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-colors group cursor-pointer"
+              >
+                <item.icon className="w-8 h-8 text-primary mb-4 group-hover:drop-shadow-[0_0_8px_hsl(175,80%,50%,0.5)] transition-all" />
+                <h4 className="font-heading text-lg font-semibold text-foreground mb-2">{item.title}</h4>
+                <p className="font-body text-sm text-muted-foreground">{item.desc}</p>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
