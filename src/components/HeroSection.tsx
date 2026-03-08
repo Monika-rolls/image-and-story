@@ -3,7 +3,11 @@ import monikaPhoto from "@/assets/monika-photo.png";
 import { ArrowDown, Sparkles } from "lucide-react";
 import useTypewriter from "@/hooks/use-typewriter";
 
+const tagline = "Building intelligent systems that think, reason, and automate. From LLM-powered copilots to real-time call analytics — engineering AI that drives business impact.";
+
 const HeroSection = () => {
+  const { displayed, done } = useTypewriter(tagline, 30, 1200);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center w-full">
@@ -30,10 +34,9 @@ const HeroSection = () => {
             <span className="text-primary glow-text">Kusumanchi</span>
           </h1>
 
-          <p className="font-body text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed mb-8">
-            Building intelligent systems that think, reason, and automate.
-            From LLM-powered copilots to real-time call analytics —
-            engineering AI that drives business impact.
+          <p className="font-body text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed mb-8 min-h-[5rem]">
+            {displayed}
+            {!done && <span className="inline-block w-0.5 h-5 bg-primary ml-0.5 animate-pulse-glow align-middle" />}
           </p>
 
           <div className="flex flex-wrap gap-4">
