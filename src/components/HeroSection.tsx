@@ -139,85 +139,14 @@ const HeroSection = () => {
           </div>
         </motion.div>
 
-        {/* Right - 3D Interactive Photo */}
+        {/* Right - 3D Hologram */}
         <motion.div
-          style={{
-            y: photoY,
-            rotateX: useTransform(smoothY, [-1, 1], [12, -12]),
-            rotateY: useTransform(smoothX, [-1, 1], [-12, 12]),
-            transformPerspective: 1200,
-          }}
+          style={{ y: photoY }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="relative flex items-center justify-center"
         >
-          <motion.div
-            style={{ x: useTransform(smoothX, [-1, 1], [15, -15]), y: useTransform(smoothY, [-1, 1], [15, -15]) }}
-            className="absolute w-80 h-80 md:w-96 md:h-96 rounded-full border border-primary/10 animate-pulse-glow"
-          />
-          <motion.div
-            style={{ x: useTransform(smoothX, [-1, 1], [-10, 10]), y: useTransform(smoothY, [-1, 1], [-10, 10]) }}
-            className="absolute w-[22rem] md:w-[28rem] h-[22rem] md:h-[28rem] rounded-full border border-primary/5"
-          />
-          <div className="absolute w-72 h-72 md:w-80 md:h-80 rounded-full border-2 border-primary/20 animate-signal" />
-
-          <motion.div
-            style={{
-              x: useTransform(smoothX, [-1, 1], [-20, 20]),
-              y: useTransform(smoothY, [-1, 1], [-15, 15]),
-              scale: useTransform(smoothY, [-1, 1], [1.04, 0.96]),
-            }}
-            initial={{ scale: 0, rotate: -180, opacity: 0 }}
-            animate={{ scale: 1, rotate: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.7 }}
-            className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-primary/40 glow-box"
-          >
-            <motion.img
-              src={monikaPhoto}
-              alt="Monika Kusumanchi - AI Engineer"
-              className="w-full h-full object-cover object-top"
-              style={{
-                x: useTransform(smoothX, [-1, 1], [15, -15]),
-                y: useTransform(smoothY, [-1, 1], [10, -10]),
-                scale: useTransform(smoothY, [-1, 1], [1.12, 1.02]),
-              }}
-              initial={{ scale: 1.3 }}
-              animate={{ scale: 1.07 }}
-              transition={{ duration: 1.5, delay: 1.2, ease: "easeOut" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-            <motion.div
-              style={{ x: useTransform(smoothX, [-1, 1], [-80, 80]), y: useTransform(smoothY, [-1, 1], [-80, 80]) }}
-              className="absolute w-40 h-40 rounded-full bg-white/5 blur-2xl pointer-events-none"
-            />
-          </motion.div>
-
-          {[
-            { label: "LLMs", x: "-left-4", y: "top-8", color: "primary", mx: 25, my: 20 },
-            { label: "RAG", x: "-right-2", y: "top-16", color: "primary", mx: -20, my: 15 },
-            { label: "PyTorch", x: "-left-8", y: "bottom-20", color: "accent", mx: 30, my: -18 },
-            { label: "AWS", x: "-right-6", y: "bottom-12", color: "accent", mx: -25, my: -22 },
-          ].map((node, i) => (
-            <motion.div
-              key={node.label}
-              style={{
-                x: useTransform(smoothX, [-1, 1], [-node.mx, node.mx]),
-                y: useTransform(smoothY, [-1, 1], [-node.my, node.my]),
-              }}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.2 + i * 0.2 }}
-              whileHover={{ scale: 1.2, boxShadow: `0 0 15px hsl(${node.color === "primary" ? "175, 80%, 50%" : "265, 70%, 60%"}, 0.4)` }}
-              className={`absolute ${node.x} ${node.y} px-3 py-1.5 rounded-full border text-xs font-heading tracking-wider backdrop-blur-sm ${
-                node.color === "primary"
-                  ? "border-primary/40 bg-primary/10 text-primary"
-                  : "border-accent/40 bg-accent/10 text-accent"
-              }`}
-            >
-              {node.label}
-            </motion.div>
-          ))}
+          <HologramPhoto />
         </motion.div>
       </motion.div>
 
