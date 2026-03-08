@@ -104,11 +104,8 @@ const HologramPhoto = () => {
           {/* Glare/reflection that follows mouse */}
           <motion.div
             style={{ left: glareX, top: glareY }}
-            className="absolute w-48 h-48 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
-            css={{}}
-          >
-            <div className="w-full h-full rounded-full bg-gradient-radial from-white/10 via-white/5 to-transparent blur-lg" />
-          </motion.div>
+            className="absolute w-48 h-48 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none bg-white/[0.06] blur-2xl"
+          />
 
           {/* Holographic color shift overlay */}
           <motion.div
