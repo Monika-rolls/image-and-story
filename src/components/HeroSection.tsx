@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import monikaPhoto from "@/assets/monika-photo.png";
 import { ArrowDown, Sparkles } from "lucide-react";
 import useTypewriter from "@/hooks/use-typewriter";
@@ -7,12 +8,37 @@ const tagline = "Building intelligent systems that think, reason, and automate. 
 
 const HeroSection = () => {
   const { displayed, done } = useTypewriter(tagline, 30, 1200);
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const photoScale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const bgLayer1Y = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const bgLayer2Y = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const statsY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center w-full">
-        {/* Left - Text */}
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Parallax decorative layers */}
+      <motion.div
+        style={{ y: bgLayer1Y }}
+        className="absolute top-20 -left-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none"
+      />
+      <motion.div
+        style={{ y: bgLayer2Y }}
+        className="absolute -bottom-20 -right-32 w-[30rem] h-[30rem] rounded-full bg-accent/5 blur-3xl pointer-events-none"
+      />
+      <motion.div
+        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}
+        className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-glow-warm/3 blur-2xl pointer-events-none"
+      />
+
+      <motion.div style={{ opacity }} className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center w-full">
+        {/* Left - Text with parallax */}
         <motion.div
+          style={{ y: textY }}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
@@ -54,8 +80,8 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Stats */}
-          <div className="flex gap-8 mt-12">
+          {/* Stats with own parallax layer */}
+          <motion.div style={{ y: statsY }} className="flex gap-8 mt-12">
             {[
               { value: "3+", label: "Hackathon Wins" },
               { value: "4+", label: "Companies" },
@@ -71,24 +97,21 @@ const HeroSection = () => {
                 <div className="font-body text-xs text-muted-foreground tracking-wide">{stat.label}</div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
-        {/* Right - Photo Node */}
+        {/* Right - Photo with slower parallax */}
         <motion.div
+          style={{ y: photoY, scale: photoScale }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
           className="relative flex items-center justify-center"
         >
-          {/* Outer glow rings */}
           <div className="absolute w-80 h-80 md:w-96 md:h-96 rounded-full border border-primary/10 animate-pulse-glow" />
           <div className="absolute w-[22rem] md:w-[28rem] h-[22rem] md:h-[28rem] rounded-full border border-primary/5" />
-          
-          {/* Signal pulse */}
           <div className="absolute w-72 h-72 md:w-80 md:h-80 rounded-full border-2 border-primary/20 animate-signal" />
 
-          {/* Photo container */}
           <motion.div
             initial={{ scale: 0, rotate: -180, opacity: 0 }}
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
@@ -107,7 +130,6 @@ const HeroSection = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
           </motion.div>
 
-          {/* Floating skill nodes */}
           {[
             { label: "LLMs", x: "-left-4", y: "top-8", color: "primary" },
             { label: "RAG", x: "-right-2", y: "top-16", color: "primary" },
@@ -129,10 +151,11 @@ const HeroSection = () => {
             </motion.div>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
+        style={{ opacity }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}

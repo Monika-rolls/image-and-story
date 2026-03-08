@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import { ExternalLink, Bot, FileText, MessageSquare } from "lucide-react";
 
@@ -58,15 +58,11 @@ const FlipCard = ({ project, index, isInView }: { project: typeof projects[0]; i
           </div>
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-0.5 rounded text-[10px] font-heading tracking-wider border border-primary/15 text-primary/60 bg-primary/5"
-              >
+              <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-heading tracking-wider border border-primary/15 text-primary/60 bg-primary/5">
                 {tag}
               </span>
             ))}
           </div>
-          {/* Corner glow */}
           <div className={`absolute -top-px -right-px w-24 h-24 bg-gradient-to-bl ${project.gradient} rounded-tr-xl rounded-bl-[3rem] opacity-60`} />
         </div>
 
@@ -90,26 +86,37 @@ const FlipCard = ({ project, index, isInView }: { project: typeof projects[0]; i
 const ProjectsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  const headingY = useTransform(scrollYProgress, [0, 1], [50, -30]);
+  const cardsY = useTransform(scrollYProgress, [0, 1], [70, -20]);
 
   return (
-    <section id="projects" className="relative py-24" ref={ref}>
+    <section id="projects" className="relative py-24 overflow-hidden" ref={ref}>
+      <motion.div
+        style={{ y: useTransform(scrollYProgress, [0, 1], [50, -120]) }}
+        className="absolute -bottom-20 left-1/3 w-96 h-96 rounded-full bg-primary/4 blur-3xl pointer-events-none"
+      />
+
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="font-display text-sm tracking-[0.3em] text-primary mb-2">// PROJECTS</h2>
-          <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-12">
-            Output Layers
-          </h3>
+        <motion.div style={{ y: headingY }}>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="font-display text-sm tracking-[0.3em] text-primary mb-2">// PROJECTS</h2>
+            <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-12">
+              Output Layers
+            </h3>
+          </motion.div>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <motion.div style={{ y: cardsY }} className="grid md:grid-cols-3 gap-6">
           {projects.map((project, i) => (
             <FlipCard key={project.title} project={project} index={i} isInView={isInView} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

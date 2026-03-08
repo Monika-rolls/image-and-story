@@ -1,14 +1,22 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Mail, Phone, Linkedin, Github } from "lucide-react";
 
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  const contentY = useTransform(scrollYProgress, [0, 1], [60, -20]);
 
   return (
-    <section id="contact" className="relative py-24 neural-grid" ref={ref}>
-      <div className="max-w-3xl mx-auto px-6 text-center">
+    <section id="contact" className="relative py-24 neural-grid overflow-hidden" ref={ref}>
+      <motion.div
+        style={{ y: useTransform(scrollYProgress, [0, 1], [40, -80]) }}
+        className="absolute top-10 right-1/4 w-72 h-72 rounded-full bg-primary/5 blur-3xl pointer-events-none"
+      />
+
+      <motion.div style={{ y: contentY }} className="max-w-3xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -55,7 +63,6 @@ const ContactSection = () => {
           </div>
         </motion.div>
 
-        {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -66,7 +73,7 @@ const ContactSection = () => {
             © 2026 Monika Kusumanchi • Designed with neural precision
           </p>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };
