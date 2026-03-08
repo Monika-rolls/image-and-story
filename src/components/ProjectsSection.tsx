@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ExternalLink, Bot, FileText, MessageSquare } from "lucide-react";
 
 const projects = [
@@ -8,20 +8,84 @@ const projects = [
     icon: Bot,
     desc: "End-to-end AI recruitment system using CrewAI with multi-agent reasoning, automated email, calendar scheduling, and AI-led interviews.",
     tags: ["CrewAI", "Gmail API", "Google Calendar", "Multi-Agent"],
+    gradient: "from-primary/20 to-accent/10",
   },
   {
     title: "Resume Optimization Agent",
     icon: FileText,
     desc: "LLM-based scoring and feedback engine for ATS compliance using Hugging Face and OpenAI models with structured evaluation.",
     tags: ["Hugging Face", "OpenAI", "ATS Scoring"],
+    gradient: "from-accent/20 to-primary/10",
   },
   {
     title: "RAG Assistant",
     icon: MessageSquare,
     desc: "Retrieval-augmented generation system for intelligent document querying and knowledge extraction.",
     tags: ["RAG", "LangChain", "Vector DB"],
+    gradient: "from-glow-warm/10 to-primary/10",
   },
 ];
+
+const FlipCard = ({ project, index, isInView }: { project: typeof projects[0]; index: number; isInView: boolean }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, rotateY: -90 }}
+      animate={isInView ? { opacity: 1, rotateY: 0 } : {}}
+      transition={{ delay: 0.3 + index * 0.2, duration: 0.8, type: "spring", stiffness: 80 }}
+      className="h-72 cursor-pointer"
+      style={{ perspective: "1200px" }}
+      onClick={() => setIsFlipped(!isFlipped)}
+    >
+      <motion.div
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ duration: 0.6, type: "spring", stiffness: 100, damping: 20 }}
+        className="relative w-full h-full"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* Front */}
+        <div
+          className="absolute inset-0 p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm flex flex-col justify-between group hover:border-primary/40 transition-all"
+          style={{ backfaceVisibility: "hidden" }}
+        >
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <project.icon className="w-10 h-10 text-primary" style={{ filter: "drop-shadow(0 0 8px hsl(175, 80%, 50%, 0.3))" }} />
+              <span className="font-body text-xs text-muted-foreground tracking-wider">CLICK TO FLIP →</span>
+            </div>
+            <h4 className="font-heading text-xl font-semibold text-foreground mb-3">{project.title}</h4>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2 py-0.5 rounded text-[10px] font-heading tracking-wider border border-primary/15 text-primary/60 bg-primary/5"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          {/* Corner glow */}
+          <div className={`absolute -top-px -right-px w-24 h-24 bg-gradient-to-bl ${project.gradient} rounded-tr-xl rounded-bl-[3rem] opacity-60`} />
+        </div>
+
+        {/* Back */}
+        <div
+          className="absolute inset-0 p-6 rounded-xl border border-primary/30 bg-card/80 backdrop-blur-md flex flex-col justify-center glow-box"
+          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+        >
+          <project.icon className="w-8 h-8 text-primary mb-4" />
+          <p className="font-body text-sm text-foreground leading-relaxed mb-4">{project.desc}</p>
+          <div className="flex items-center gap-2 text-primary font-heading text-xs tracking-wider">
+            <ExternalLink className="w-3.5 h-3.5" />
+            View Project
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 const ProjectsSection = () => {
   const ref = useRef(null);
@@ -43,30 +107,7 @@ const ProjectsSection = () => {
 
         <div className="grid md:grid-cols-3 gap-6">
           {projects.map((project, i) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + i * 0.15, duration: 0.6 }}
-              className="group relative p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/40 transition-all hover:glow-box"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <project.icon className="w-8 h-8 text-primary group-hover:drop-shadow-[0_0_8px_hsl(175,80%,50%,0.5)] transition-all" />
-                <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-              </div>
-              <h4 className="font-heading text-xl font-semibold text-foreground mb-3">{project.title}</h4>
-              <p className="font-body text-sm text-muted-foreground mb-5 leading-relaxed">{project.desc}</p>
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-0.5 rounded text-[10px] font-heading tracking-wider border border-primary/15 text-primary/60 bg-primary/5"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+            <FlipCard key={project.title} project={project} index={i} isInView={isInView} />
           ))}
         </div>
       </div>

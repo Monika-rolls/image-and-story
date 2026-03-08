@@ -63,21 +63,35 @@ const ExperienceSection = () => {
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-[19px] top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent" />
+          <motion.div
+            initial={{ scaleY: 0 }}
+            animate={isInView ? { scaleY: 1 } : {}}
+            transition={{ duration: 1.5, delay: 0.3 }}
+            className="absolute left-[19px] top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent origin-top"
+          />
 
           <div className="space-y-10">
             {experiences.map((exp, i) => (
               <motion.div
                 key={exp.company}
-                initial={{ opacity: 0, x: -30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.2 + i * 0.15, duration: 0.6 }}
+                initial={{ opacity: 0, x: -60, rotateY: -20 }}
+                animate={isInView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
+                transition={{ delay: 0.4 + i * 0.2, duration: 0.7, type: "spring", stiffness: 60 }}
                 className="relative pl-12"
+                style={{ perspective: "1000px" }}
               >
                 {/* Node dot */}
-                <div className="absolute left-2.5 top-1.5 w-4 h-4 rounded-full border-2 border-primary bg-background shadow-[0_0_10px_hsl(175,80%,50%,0.4)]" />
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={isInView ? { scale: 1 } : {}}
+                  transition={{ delay: 0.5 + i * 0.2, type: "spring", stiffness: 200 }}
+                  className="absolute left-2.5 top-1.5 w-4 h-4 rounded-full border-2 border-primary bg-background shadow-[0_0_10px_hsl(175,80%,50%,0.4)]"
+                />
 
-                <div className="p-5 rounded-xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-colors">
+                <motion.div
+                  whileHover={{ scale: 1.02, x: 8 }}
+                  className="p-5 rounded-xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-colors"
+                >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-3">
                     <div className="flex items-center gap-2">
                       <Briefcase className="w-4 h-4 text-primary" />
@@ -88,13 +102,19 @@ const ExperienceSection = () => {
                   </div>
                   <ul className="space-y-1.5">
                     {exp.highlights.map((h, hi) => (
-                      <li key={hi} className="font-body text-sm text-muted-foreground flex gap-2">
+                      <motion.li
+                        key={hi}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ delay: 0.6 + i * 0.2 + hi * 0.1 }}
+                        className="font-body text-sm text-muted-foreground flex gap-2"
+                      >
                         <span className="text-primary/50 mt-1">▹</span>
                         {h}
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
