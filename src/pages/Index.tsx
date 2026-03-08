@@ -8,12 +8,16 @@ import ExperienceSection from "@/components/ExperienceSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import CinematicIntro from "@/components/CinematicIntro";
+import CustomCursor from "@/components/CustomCursor";
+import ScrollProgress from "@/components/ScrollProgress";
 
 const Index = () => {
   const [introComplete, setIntroComplete] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-background">
+      <CustomCursor />
+      <ScrollProgress />
       {!introComplete && <CinematicIntro onComplete={() => setIntroComplete(true)} />}
       <NeuralBackground />
       <Navbar />
