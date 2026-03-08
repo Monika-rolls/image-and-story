@@ -1,6 +1,6 @@
 import { motion, useSpring, useTransform } from "framer-motion";
 import { useRef, useMemo } from "react";
-import monikaPhoto from "@/assets/monika-vector.png";
+import monikaPhoto from "@/assets/monika-nobg.png";
 import useMousePosition from "@/hooks/use-mouse-position";
 
 const HologramPhoto = () => {
