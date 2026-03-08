@@ -1,15 +1,15 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useMemo } from "react";
-import { ArrowDown, Sparkles } from "lucide-react";
+import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail } from "lucide-react";
 import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
 import HologramPhoto from "./HologramPhoto";
 
-const tagline = "Building intelligent systems that think, reason, and automate. From LLM-powered copilots to real-time call analytics — engineering AI that drives business impact.";
+const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 
 const HeroSection = () => {
-  const { displayed, done } = useTypewriter(tagline, 30, 1200);
+  const { displayed: speechDisplayed, done: speechDone } = useTypewriter(speechText, 40, 2000);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const mouse = useMousePosition();
@@ -27,6 +27,13 @@ const HeroSection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const bgLayer1Y = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const bgLayer2Y = useTransform(scrollYProgress, [0, 1], [0, -80]);
+
+  const navButtons = [
+    { label: "Show Projects", href: "#projects", icon: FolderOpen },
+    { label: "About Me", href: "#about", icon: User },
+    { label: "Skills", href: "#skills", icon: Code },
+    { label: "Contact", href: "#contact", icon: Mail },
+  ];
 
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -83,37 +90,44 @@ const HeroSection = () => {
             </motion.span>
           </h1>
 
-          <p className="font-body text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed mb-8 min-h-[5rem]">
-            {displayed}
-            {!done && <span className="inline-block w-0.5 h-5 bg-primary ml-0.5 animate-pulse-glow align-middle" />}
-          </p>
+          {/* Speech Bubble */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.6, type: "spring" }}
+            className="relative bg-card/80 backdrop-blur-md border border-primary/20 rounded-2xl rounded-bl-sm px-5 py-3 mb-6 max-w-md glow-box"
+          >
+            <p className="font-body text-base text-foreground min-h-[1.5rem]">
+              {speechDisplayed}
+              {!speechDone && <span className="inline-block w-0.5 h-4 bg-primary ml-0.5 animate-pulse-glow align-middle" />}
+            </p>
+            {/* Speech bubble tail */}
+            <div className="absolute -bottom-2 left-4 w-4 h-4 bg-card/80 border-b border-l border-primary/20 rotate-[-45deg]" />
+          </motion.div>
 
-          <div className="flex flex-wrap gap-4">
-            <MagneticButton
-              href="#projects"
-              className="group relative px-6 py-3 rounded-lg bg-primary text-primary-foreground font-heading font-semibold text-sm tracking-wide overflow-hidden"
-              strength={0.4}
-            >
-              <span className="relative z-10">Explore My Work</span>
-              {/* Shimmer effect */}
-              <motion.span
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full"
-                animate={{ translateX: ["−100%", "200%"] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-              />
-            </MagneticButton>
-            <MagneticButton
-              href="#about"
-              className="group px-6 py-3 rounded-lg border border-border bg-card text-foreground font-heading font-semibold text-sm tracking-wide hover:border-primary/50 transition-all relative overflow-hidden"
-              strength={0.3}
-            >
-              <span className="relative z-10">About Me</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-            </MagneticButton>
-          </div>
+          {/* Navigation Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.2 }}
+            className="flex flex-wrap gap-3 mb-8"
+          >
+            {navButtons.map((btn, i) => (
+              <MagneticButton
+                key={btn.label}
+                href={btn.href}
+                strength={0.3}
+                className="group flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border bg-card/50 backdrop-blur-sm text-foreground font-heading text-sm tracking-wide hover:border-primary/50 hover:bg-primary/5 transition-all relative overflow-hidden"
+              >
+                <btn.icon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                <span className="relative z-10">{btn.label}</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+              </MagneticButton>
+            ))}
+          </motion.div>
 
-          {/* Stats with count-up micro animation */}
-          <div className="flex gap-8 mt-12">
+          {/* Stats */}
+          <div className="flex gap-8">
             {[
               { value: "3+", label: "Hackathon Wins" },
               { value: "4+", label: "Companies" },
@@ -123,7 +137,7 @@ const HeroSection = () => {
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 + i * 0.15 }}
+                transition={{ delay: 2.5 + i * 0.15 }}
                 whileHover={{ scale: 1.1, y: -4 }}
                 className="cursor-default"
               >
@@ -155,7 +169,7 @@ const HeroSection = () => {
         style={{ opacity }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
+        transition={{ delay: 3 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <MagneticButton href="#about" strength={0.5}>
