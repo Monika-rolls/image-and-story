@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const skillCategories = [
@@ -13,22 +13,34 @@ const skillCategories = [
 const SkillsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  const headingY = useTransform(scrollYProgress, [0, 1], [50, -30]);
+  const gridY = useTransform(scrollYProgress, [0, 1], [60, -20]);
 
   return (
-    <section id="skills" className="relative py-24" ref={ref}>
+    <section id="skills" className="relative py-24 overflow-hidden" ref={ref}>
+      {/* Parallax bg */}
+      <motion.div
+        style={{ y: useTransform(scrollYProgress, [0, 1], [80, -100]) }}
+        className="absolute top-10 -right-20 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none"
+      />
+
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="font-display text-sm tracking-[0.3em] text-primary mb-2">// SKILLS</h2>
-          <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-12">
-            Neural Pathways
-          </h3>
+        <motion.div style={{ y: headingY }}>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="font-display text-sm tracking-[0.3em] text-primary mb-2">// SKILLS</h2>
+            <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-12">
+              Neural Pathways
+            </h3>
+          </motion.div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div style={{ y: gridY }} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillCategories.map((cat, ci) => (
             <motion.div
               key={cat.title}
@@ -64,7 +76,7 @@ const SkillsSection = () => {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

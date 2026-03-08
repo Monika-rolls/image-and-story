@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Briefcase } from "lucide-react";
 
@@ -46,22 +46,38 @@ const experiences = [
 const ExperienceSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  const headingY = useTransform(scrollYProgress, [0, 1], [50, -30]);
+  const timelineY = useTransform(scrollYProgress, [0, 1], [40, -15]);
 
   return (
-    <section id="experience" className="relative py-24 neural-grid" ref={ref}>
+    <section id="experience" className="relative py-24 neural-grid overflow-hidden" ref={ref}>
+      {/* Parallax bg orbs */}
+      <motion.div
+        style={{ y: useTransform(scrollYProgress, [0, 1], [60, -80]) }}
+        className="absolute -top-10 left-1/4 w-80 h-80 rounded-full bg-primary/4 blur-3xl pointer-events-none"
+      />
+      <motion.div
+        style={{ y: useTransform(scrollYProgress, [0, 1], [-30, 100]) }}
+        className="absolute bottom-10 right-10 w-64 h-64 rounded-full bg-accent/5 blur-3xl pointer-events-none"
+      />
+
       <div className="max-w-4xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="font-display text-sm tracking-[0.3em] text-primary mb-2">// EXPERIENCE</h2>
-          <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-12">
-            Training History
-          </h3>
+        <motion.div style={{ y: headingY }}>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="font-display text-sm tracking-[0.3em] text-primary mb-2">// EXPERIENCE</h2>
+            <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-12">
+              Training History
+            </h3>
+          </motion.div>
         </motion.div>
 
-        <div className="relative">
+        <motion.div style={{ y: timelineY }} className="relative">
           {/* Timeline line */}
           <motion.div
             initial={{ scaleY: 0 }}
@@ -80,7 +96,6 @@ const ExperienceSection = () => {
                 className="relative pl-12"
                 style={{ perspective: "1000px" }}
               >
-                {/* Node dot */}
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={isInView ? { scale: 1 } : {}}
@@ -118,7 +133,7 @@ const ExperienceSection = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
