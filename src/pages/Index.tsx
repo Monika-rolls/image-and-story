@@ -10,6 +10,7 @@ import ContactSection from "@/components/ContactSection";
 import CinematicIntro from "@/components/CinematicIntro";
 import CustomCursor from "@/components/CustomCursor";
 import ScrollProgress from "@/components/ScrollProgress";
+import AIChatWidget from "@/components/AIChatWidget";
 
 const Index = () => {
   const [introComplete, setIntroComplete] = useState(false);
@@ -29,6 +30,7 @@ const Index = () => {
         <ProjectsSection />
         <ContactSection />
       </main>
+      <AIChatWidget />
     </div>
   );
 };
