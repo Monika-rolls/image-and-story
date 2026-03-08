@@ -1,44 +1,66 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, useMemo } from "react";
 import monikaPhoto from "@/assets/monika-photo.png";
 import { ArrowDown, Sparkles } from "lucide-react";
 import useTypewriter from "@/hooks/use-typewriter";
+import useMousePosition from "@/hooks/use-mouse-position";
 
 const tagline = "Building intelligent systems that think, reason, and automate. From LLM-powered copilots to real-time call analytics — engineering AI that drives business impact.";
 
 const HeroSection = () => {
   const { displayed, done } = useTypewriter(tagline, 30, 1200);
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const mouse = useMousePosition();
+
+  // Smooth spring-based mouse values
+  const smoothX = useSpring(0, { stiffness: 50, damping: 20 });
+  const smoothY = useSpring(0, { stiffness: 50, damping: 20 });
+
+  // Update springs on mouse move
+  useMemo(() => {
+    smoothX.set(mouse.nx);
+    smoothY.set(mouse.ny);
+  }, [mouse.nx, mouse.ny, smoothX, smoothY]);
 
   const textY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const photoY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const photoScale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const bgLayer1Y = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const bgLayer2Y = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const statsY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Parallax decorative layers */}
+    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Parallax decorative layers that also respond to mouse */}
       <motion.div
-        style={{ y: bgLayer1Y }}
+        style={{
+          y: bgLayer1Y,
+          x: useTransform(smoothX, [-1, 1], [-30, 30]),
+        }}
         className="absolute top-20 -left-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none"
       />
       <motion.div
-        style={{ y: bgLayer2Y }}
+        style={{
+          y: bgLayer2Y,
+          x: useTransform(smoothX, [-1, 1], [20, -20]),
+        }}
         className="absolute -bottom-20 -right-32 w-[30rem] h-[30rem] rounded-full bg-accent/5 blur-3xl pointer-events-none"
       />
       <motion.div
-        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 200]) }}
+        style={{
+          x: useTransform(smoothX, [-1, 1], [-40, 40]),
+          y: useTransform(smoothY, [-1, 1], [-40, 40]),
+        }}
         className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-glow-warm/3 blur-2xl pointer-events-none"
       />
 
       <motion.div style={{ opacity }} className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center w-full">
         {/* Left - Text with parallax */}
         <motion.div
-          style={{ y: textY }}
+          style={{
+            y: textY,
+            x: useTransform(smoothX, [-1, 1], [-8, 8]),
+          }}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
@@ -80,8 +102,8 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Stats with own parallax layer */}
-          <motion.div style={{ y: statsY }} className="flex gap-8 mt-12">
+          {/* Stats */}
+          <div className="flex gap-8 mt-12">
             {[
               { value: "3+", label: "Hackathon Wins" },
               { value: "4+", label: "Companies" },
@@ -97,51 +119,97 @@ const HeroSection = () => {
                 <div className="font-body text-xs text-muted-foreground tracking-wide">{stat.label}</div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
 
-        {/* Right - Photo with slower parallax */}
+        {/* Right - 3D Interactive Photo */}
         <motion.div
-          style={{ y: photoY, scale: photoScale }}
+          style={{
+            y: photoY,
+            rotateX: useTransform(smoothY, [-1, 1], [12, -12]),
+            rotateY: useTransform(smoothX, [-1, 1], [-12, 12]),
+            transformPerspective: 1200,
+          }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
           className="relative flex items-center justify-center"
         >
-          <div className="absolute w-80 h-80 md:w-96 md:h-96 rounded-full border border-primary/10 animate-pulse-glow" />
-          <div className="absolute w-[22rem] md:w-[28rem] h-[22rem] md:h-[28rem] rounded-full border border-primary/5" />
+          {/* Outer glow rings — react to mouse */}
+          <motion.div
+            style={{
+              x: useTransform(smoothX, [-1, 1], [15, -15]),
+              y: useTransform(smoothY, [-1, 1], [15, -15]),
+            }}
+            className="absolute w-80 h-80 md:w-96 md:h-96 rounded-full border border-primary/10 animate-pulse-glow"
+          />
+          <motion.div
+            style={{
+              x: useTransform(smoothX, [-1, 1], [-10, 10]),
+              y: useTransform(smoothY, [-1, 1], [-10, 10]),
+            }}
+            className="absolute w-[22rem] md:w-[28rem] h-[22rem] md:h-[28rem] rounded-full border border-primary/5"
+          />
+
+          {/* Signal pulse */}
           <div className="absolute w-72 h-72 md:w-80 md:h-80 rounded-full border-2 border-primary/20 animate-signal" />
 
+          {/* Photo container — moves and zooms with mouse */}
           <motion.div
+            style={{
+              x: useTransform(smoothX, [-1, 1], [-20, 20]),
+              y: useTransform(smoothY, [-1, 1], [-15, 15]),
+              scale: useTransform(smoothY, [-1, 1], [1.04, 0.96]),
+            }}
             initial={{ scale: 0, rotate: -180, opacity: 0 }}
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.7 }}
-            className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-primary/40 glow-box animate-float"
+            className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-primary/40 glow-box"
           >
             <motion.img
               src={monikaPhoto}
               alt="Monika Kusumanchi - AI Engineer"
               className="w-full h-full object-cover object-top"
+              style={{
+                // Photo inside moves opposite for parallax depth
+                x: useTransform(smoothX, [-1, 1], [15, -15]),
+                y: useTransform(smoothY, [-1, 1], [10, -10]),
+                scale: useTransform(smoothY, [-1, 1], [1.12, 1.02]),
+              }}
               initial={{ scale: 1.3 }}
-              animate={{ scale: 1 }}
+              animate={{ scale: 1.07 }}
               transition={{ duration: 1.5, delay: 1.2, ease: "easeOut" }}
-              whileHover={{ scale: 1.08, transition: { duration: 0.4 } }}
             />
+            {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+            
+            {/* 3D light reflection that follows mouse */}
+            <motion.div
+              style={{
+                x: useTransform(smoothX, [-1, 1], [-80, 80]),
+                y: useTransform(smoothY, [-1, 1], [-80, 80]),
+              }}
+              className="absolute w-40 h-40 rounded-full bg-white/5 blur-2xl pointer-events-none"
+            />
           </motion.div>
 
+          {/* Floating skill nodes — each with unique mouse offset */}
           {[
-            { label: "LLMs", x: "-left-4", y: "top-8", color: "primary" },
-            { label: "RAG", x: "-right-2", y: "top-16", color: "primary" },
-            { label: "PyTorch", x: "-left-8", y: "bottom-20", color: "accent" },
-            { label: "AWS", x: "-right-6", y: "bottom-12", color: "accent" },
+            { label: "LLMs", x: "-left-4", y: "top-8", color: "primary", mx: 25, my: 20 },
+            { label: "RAG", x: "-right-2", y: "top-16", color: "primary", mx: -20, my: 15 },
+            { label: "PyTorch", x: "-left-8", y: "bottom-20", color: "accent", mx: 30, my: -18 },
+            { label: "AWS", x: "-right-6", y: "bottom-12", color: "accent", mx: -25, my: -22 },
           ].map((node, i) => (
             <motion.div
               key={node.label}
+              style={{
+                x: useTransform(smoothX, [-1, 1], [-node.mx, node.mx]),
+                y: useTransform(smoothY, [-1, 1], [-node.my, node.my]),
+              }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.2 + i * 0.2 }}
-              className={`absolute ${node.x} ${node.y} px-3 py-1.5 rounded-full border text-xs font-heading tracking-wider ${
+              className={`absolute ${node.x} ${node.y} px-3 py-1.5 rounded-full border text-xs font-heading tracking-wider backdrop-blur-sm ${
                 node.color === "primary"
                   ? "border-primary/40 bg-primary/10 text-primary"
                   : "border-accent/40 bg-accent/10 text-accent"
