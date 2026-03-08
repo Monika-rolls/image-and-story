@@ -1,5 +1,6 @@
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { useRef } from "react";
+import ShineCard from "./ShineCard";
 
 const skillCategories = [
   { title: "Programming", skills: ["Python", "SQL"], color: "primary" as const },
@@ -20,7 +21,6 @@ const SkillsSection = () => {
 
   return (
     <section id="skills" className="relative py-24 overflow-hidden" ref={ref}>
-      {/* Parallax bg */}
       <motion.div
         style={{ y: useTransform(scrollYProgress, [0, 1], [80, -100]) }}
         className="absolute top-10 -right-20 w-96 h-96 rounded-full bg-accent/5 blur-3xl pointer-events-none"
@@ -48,32 +48,36 @@ const SkillsSection = () => {
               animate={isInView ? { opacity: 1, x: 0, rotateZ: 0 } : {}}
               transition={{ delay: 0.15 * ci, duration: 0.7, type: "spring", stiffness: 70 }}
               whileHover={{ scale: 1.04, rotateZ: 1 }}
-              className={`p-6 rounded-xl border bg-card/50 backdrop-blur-sm transition-colors ${
-                cat.color === "accent" ? "border-accent/20 hover:border-accent/40" : "border-border hover:border-primary/30"
-              }`}
             >
-              <h4 className={`font-heading text-sm font-semibold tracking-wider mb-4 ${
-                cat.color === "accent" ? "text-accent" : "text-primary"
-              }`}>
-                {cat.title}
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {cat.skills.map((skill, si) => (
-                  <motion.span
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 0.15 * ci + 0.08 * si, type: "spring", stiffness: 200 }}
-                    className={`px-3 py-1 rounded-full text-xs font-heading tracking-wide border ${
-                      cat.color === "accent"
-                        ? "border-accent/20 text-accent/80 bg-accent/5"
-                        : "border-primary/20 text-primary/80 bg-primary/5"
-                    }`}
-                  >
-                    {skill}
-                  </motion.span>
-                ))}
-              </div>
+              <ShineCard
+                className={`p-6 rounded-xl border bg-card/50 backdrop-blur-sm transition-colors ${
+                  cat.color === "accent" ? "border-accent/20 hover:border-accent/40" : "border-border hover:border-primary/30"
+                }`}
+              >
+                <h4 className={`font-heading text-sm font-semibold tracking-wider mb-4 ${
+                  cat.color === "accent" ? "text-accent" : "text-primary"
+                }`}>
+                  {cat.title}
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {cat.skills.map((skill, si) => (
+                    <motion.span
+                      key={skill}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      transition={{ delay: 0.15 * ci + 0.08 * si, type: "spring", stiffness: 200 }}
+                      whileHover={{ scale: 1.15, y: -2 }}
+                      className={`px-3 py-1 rounded-full text-xs font-heading tracking-wide border cursor-default ${
+                        cat.color === "accent"
+                          ? "border-accent/20 text-accent/80 bg-accent/5 hover:bg-accent/10 hover:border-accent/40"
+                          : "border-primary/20 text-primary/80 bg-primary/5 hover:bg-primary/10 hover:border-primary/40"
+                      } transition-colors`}
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+              </ShineCard>
             </motion.div>
           ))}
         </motion.div>
