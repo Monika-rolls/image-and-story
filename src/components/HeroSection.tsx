@@ -1,10 +1,10 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useMemo } from "react";
-import monikaPhoto from "@/assets/monika-photo.png";
 import { ArrowDown, Sparkles } from "lucide-react";
 import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
+import HologramPhoto from "./HologramPhoto";
 
 const tagline = "Building intelligent systems that think, reason, and automate. From LLM-powered copilots to real-time call analytics — engineering AI that drives business impact.";
 
