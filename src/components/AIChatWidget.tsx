@@ -154,7 +154,7 @@ const AIChatWidget = () => {
                 <h4 className="font-heading text-sm font-semibold text-foreground">Monika's AI Assistant</h4>
                 <p className="text-[10px] text-primary font-heading tracking-wider">POWERED BY AI</p>
               </div>
-              <div className="ml-auto w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <div className="ml-auto w-2 h-2 rounded-full bg-primary animate-pulse" />
             </div>
 
             {/* Messages */}
