@@ -85,14 +85,23 @@ const HeroSection = () => {
           <div className="absolute w-72 h-72 md:w-80 md:h-80 rounded-full border-2 border-primary/20 animate-signal" />
 
           {/* Photo container */}
-          <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-primary/40 glow-box animate-float">
-            <img
+          <motion.div
+            initial={{ scale: 0, rotate: -180, opacity: 0 }}
+            animate={{ scale: 1, rotate: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.7 }}
+            className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-primary/40 glow-box animate-float"
+          >
+            <motion.img
               src={monikaPhoto}
               alt="Monika Kusumanchi - AI Engineer"
               className="w-full h-full object-cover object-top"
+              initial={{ scale: 1.3 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.5, delay: 1.2, ease: "easeOut" }}
+              whileHover={{ scale: 1.08, transition: { duration: 0.4 } }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-          </div>
+          </motion.div>
 
           {/* Floating skill nodes */}
           {[
