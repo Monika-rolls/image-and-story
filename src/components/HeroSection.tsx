@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import monikaPhoto from "@/assets/monika-photo.png";
 import { ArrowDown, Sparkles } from "lucide-react";
+import useTypewriter from "@/hooks/use-typewriter";
 
 const HeroSection = () => {
   return (
