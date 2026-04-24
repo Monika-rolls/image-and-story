@@ -6,55 +6,56 @@
 
 @layer base {
   :root {
-    --background: 220 20% 4%;
-    --foreground: 180 10% 92%;
+    /* ❄️ Arctic Frost theme */
+    --background: 217 47% 7%;
+    --foreground: 213 40% 91%;
 
-    --card: 220 18% 8%;
-    --card-foreground: 180 10% 92%;
+    --card: 218 45% 12%;
+    --card-foreground: 213 40% 91%;
 
-    --popover: 220 18% 8%;
-    --popover-foreground: 180 10% 92%;
+    --popover: 218 45% 12%;
+    --popover-foreground: 213 40% 91%;
 
-    --primary: 175 80% 50%;
-    --primary-foreground: 220 20% 4%;
+    --primary: 199 89% 60%;
+    --primary-foreground: 217 47% 7%;
 
-    --secondary: 220 15% 14%;
-    --secondary-foreground: 180 10% 85%;
+    --secondary: 218 35% 18%;
+    --secondary-foreground: 213 30% 85%;
 
-    --muted: 220 12% 12%;
-    --muted-foreground: 215 10% 55%;
+    --muted: 218 30% 15%;
+    --muted-foreground: 213 20% 60%;
 
-    --accent: 265 70% 60%;
-    --accent-foreground: 180 10% 95%;
+    --accent: 234 89% 74%;
+    --accent-foreground: 217 47% 7%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 16%;
-    --input: 220 15% 16%;
-    --ring: 175 80% 50%;
+    --border: 218 35% 20%;
+    --input: 218 35% 20%;
+    --ring: 199 89% 60%;
 
     --radius: 0.75rem;
 
     /* Custom neural tokens */
-    --glow-primary: 175 80% 50%;
-    --glow-accent: 265 70% 60%;
-    --glow-warm: 45 90% 60%;
-    --node-bg: 220 18% 10%;
-    --neural-line: 175 60% 30%;
+    --glow-primary: 199 89% 60%;
+    --glow-accent: 234 89% 74%;
+    --glow-warm: 199 95% 74%;
+    --node-bg: 218 45% 14%;
+    --neural-line: 199 70% 40%;
 
     --font-display: 'Orbitron', monospace;
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Rajdhani', sans-serif;
 
-    --sidebar-background: 220 18% 6%;
-    --sidebar-foreground: 180 10% 85%;
-    --sidebar-primary: 175 80% 50%;
-    --sidebar-primary-foreground: 220 20% 4%;
-    --sidebar-accent: 220 15% 14%;
-    --sidebar-accent-foreground: 180 10% 85%;
-    --sidebar-border: 220 15% 16%;
-    --sidebar-ring: 175 80% 50%;
+    --sidebar-background: 218 45% 9%;
+    --sidebar-foreground: 213 30% 85%;
+    --sidebar-primary: 199 89% 60%;
+    --sidebar-primary-foreground: 217 47% 7%;
+    --sidebar-accent: 218 35% 18%;
+    --sidebar-accent-foreground: 213 30% 85%;
+    --sidebar-border: 218 35% 20%;
+    --sidebar-ring: 199 89% 60%;
   }
 }
 
