@@ -32,7 +32,8 @@ const FlipCard = ({ project, index, isInView, onChanged }: { project: Project; i
   };
 
   const updateMedia = async (field: "image_url" | "video_url", url: string) => {
-    const { error } = await supabase.from("projects").update({ [field]: url }).eq("id", project.id);
+    const update: { image_url?: string; video_url?: string } = { [field]: url };
+    const { error } = await supabase.from("projects").update(update).eq("id", project.id);
     if (error) toast.error(error.message);
     else {
       toast.success("Media updated");
