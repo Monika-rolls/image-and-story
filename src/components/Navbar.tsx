@@ -83,6 +83,9 @@ const Navbar = () => {
               </span>
             </MagneticButton>
           ))}
+          <Link to="/blog" className="font-heading text-sm tracking-wide text-muted-foreground hover:text-foreground transition-all">
+            Blog
+          </Link>
         </div>
 
         <MagneticButton
