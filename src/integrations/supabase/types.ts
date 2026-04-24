@@ -14,7 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      blog_posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          image_url: string | null
+          link: string | null
+          published_at: string
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          link?: string | null
+          published_at?: string
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          link?: string | null
+          published_at?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_date: string | null
+          id: string
+          image_url: string | null
+          link: string | null
+          title: string
+          venue: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_date?: string | null
+          id?: string
+          image_url?: string | null
+          link?: string | null
+          title: string
+          venue?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_date?: string | null
+          id?: string
+          image_url?: string | null
+          link?: string | null
+          title?: string
+          venue?: string | null
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          created_at: string
+          description: string
+          display_order: number
+          id: string
+          image_url: string | null
+          link: string | null
+          tags: string[]
+          title: string
+          video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          link?: string | null
+          tags?: string[]
+          title: string
+          video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          link?: string | null
+          tags?: string[]
+          title?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
