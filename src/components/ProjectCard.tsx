@@ -159,12 +159,15 @@ const ProjectCard = ({ project, index, isInView, onChanged }: ProjectCardProps) 
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1 text-primary text-[11px] font-heading tracking-wider hover:underline truncate max-w-full"
+                    className="inline-flex items-center gap-1 text-primary text-[11px] font-heading tracking-wider hover:underline truncate max-w-full mb-2"
                   >
                     <ExternalLink className="w-3 h-3 shrink-0" />
                     <span className="truncate">{project.link.replace(/^https?:\/\//, "")}</span>
                   </a>
                 )}
+                <p className="font-body text-xs text-muted-foreground leading-relaxed line-clamp-3 mt-1">
+                  {project.tagline || project.description}
+                </p>
               </div>
               <div>
                 <div className="flex flex-wrap gap-1.5 mb-2">
