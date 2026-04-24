@@ -81,10 +81,12 @@ export type Database = {
         Row: {
           created_at: string
           description: string
+          details: Json
           display_order: number
           id: string
           image_url: string | null
           link: string | null
+          tagline: string | null
           tags: string[]
           title: string
           video_url: string | null
@@ -92,10 +94,12 @@ export type Database = {
         Insert: {
           created_at?: string
           description: string
+          details?: Json
           display_order?: number
           id?: string
           image_url?: string | null
           link?: string | null
+          tagline?: string | null
           tags?: string[]
           title: string
           video_url?: string | null
@@ -103,10 +107,12 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string
+          details?: Json
           display_order?: number
           id?: string
           image_url?: string | null
           link?: string | null
+          tagline?: string | null
           tags?: string[]
           title?: string
           video_url?: string | null
