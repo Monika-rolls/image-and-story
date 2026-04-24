@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { Brain } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import MagneticButton from "./MagneticButton";
 
-const navItems = ["About", "Skills", "Experience", "Projects", "Contact"];
+const navItems = ["About", "Skills", "Experience", "Projects", "Events", "Contact"];
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState("");
