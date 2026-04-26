@@ -8,9 +8,13 @@ const experiences = [
     role: "AI Engineer",
     period: "April 2025 - Present",
     highlights: [
-      "Built AI Copilot converting natural language to MongoDB queries with 8-10s latency",
-      "Created Call Analytics platform processing sales conversations, cutting costs by ~60%",
-      "Deployed scalable services on AWS (ECS/Lambda/API Gateway) with Docker",
+      "Built production AI Copilot translating natural language → MongoDB queries via LLM orchestration & RAG, achieving 8–10s end-to-end latency",
+      "Developed call analytics platform extracting intent, sentiment & insights from sales calls — cut latency to ~20s, infra cost by 60%, lifted conversions 30–40%",
+      "Built a universal AI agent on top of CRM APIs that turns natural language into real-time business insights, analytics & predictions",
+      "Developing voice-enabled AI agents with speech-to-text + LLM pipelines for conversational SaaS workflows",
+      "Deployed scalable low-latency backends on AWS (ECS, Lambda, API Gateway, Queues) with Docker via the Serverless Framework",
+      "Built structured eval pipelines with targeted error analysis & stress testing across diverse conversational scenarios",
+      "Awarded Best Performer (Feb) for optimizing price & accuracy in AI call analytics",
     ],
   },
   {
@@ -18,9 +22,8 @@ const experiences = [
     role: "AI Engineer",
     period: "Jun 2024 - March 2025",
     highlights: [
-      "Built AI Agents using CrewAI and AutoGen with OpenAI & Gemini models",
-      "Deployed ML apps with FastAPI, Docker, and Google Cloud",
-      "Worked with PostgreSQL, BigQuery, and Neo4j for data storage",
+      "Delivered client-facing AI solutions using CrewAI & AutoGen — built LLM-powered agents tailored to business workflows and shipped to production",
+      "Engineered scalable backends with FastAPI, Docker & Google Cloud, integrating PostgreSQL, BigQuery and Neo4j for efficient data handling",
     ],
   },
   {
@@ -28,8 +31,9 @@ const experiences = [
     role: "ML Engineer",
     period: "Jun 2023 - May 2024",
     highlights: [
-      "Developed real-time ML models deployed on Google Cloud",
-      "Built metadata management tool for SMBs tracking data pipeline lineage",
+      "Built and deployed ML applications across medical data, restaurant revenue planning and image analysis using FastAPI on GCP (Cloud Run, BigQuery, Docker)",
+      "Enabled real-time data processing and scalable inference pipelines for SMB customers",
+      "Built a metadata management system tracking data flow & pipeline lineage across cloud platforms — improving data visibility and governance",
     ],
   },
   {
@@ -37,8 +41,8 @@ const experiences = [
     role: "Computer Vision Engineer",
     period: "Mar 2023 - May 2023",
     highlights: [
-      "Built deep learning models with PyTorch & OpenCV for sports footage analysis",
-      "Improved model accuracy by 40% through feature optimization",
+      "Built CV models with PyTorch & OpenCV to detect ball-bat interactions in sports footage — improved accuracy by 40% via feature optimization",
+      "Performed dataset curation, preprocessing & validation to make models robust across varied lighting and motion conditions",
     ],
   },
 ];
