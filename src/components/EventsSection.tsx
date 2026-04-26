@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Calendar, MapPin, Plus, Trash2, ExternalLink } from "lucide-react";
+import { Calendar, MapPin, Plus, Trash2, ExternalLink, Pencil } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -17,12 +17,15 @@ interface EventItem {
   link: string | null;
 }
 
+const emptyForm = { title: "", description: "", event_date: "", venue: "", link: "", image_url: "" };
+
 const EventsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [events, setEvents] = useState<EventItem[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ title: "", description: "", event_date: "", venue: "", link: "", image_url: "" });
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState(emptyForm);
 
   const load = async () => {
     const { data, error } = await supabase
@@ -37,6 +40,26 @@ const EventsSection = () => {
     load();
   }, []);
 
+  const startEdit = (ev: EventItem) => {
+    setEditingId(ev.id);
+    setForm({
+      title: ev.title,
+      description: ev.description || "",
+      event_date: ev.event_date || "",
+      venue: ev.venue || "",
+      link: ev.link || "",
+      image_url: ev.image_url || "",
+    });
+    setShowForm(true);
+    setTimeout(() => document.getElementById("events")?.scrollIntoView({ behavior: "smooth" }), 50);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setForm(emptyForm);
+    setShowForm(false);
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.title.trim()) {
@@ -47,18 +70,24 @@ const EventsSection = () => {
       toast.error("Title too long");
       return;
     }
-    const { error } = await supabase.from("events").insert({
+    const payload = {
       title: form.title.trim(),
       description: form.description.trim() || null,
       event_date: form.event_date || null,
       venue: form.venue.trim() || null,
       link: form.link.trim() || null,
       image_url: form.image_url || null,
-    });
+    };
+
+    const { error } = editingId
+      ? await supabase.from("events").update(payload).eq("id", editingId)
+      : await supabase.from("events").insert(payload);
+
     if (error) toast.error(error.message);
     else {
-      toast.success("Event added");
-      setForm({ title: "", description: "", event_date: "", venue: "", link: "", image_url: "" });
+      toast.success(editingId ? "Event updated" : "Event added");
+      setForm(emptyForm);
+      setEditingId(null);
       setShowForm(false);
       load();
     }
@@ -83,7 +112,7 @@ const EventsSection = () => {
           <h3 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-8">Speaking Layers</h3>
 
           <button
-            onClick={() => setShowForm((s) => !s)}
+            onClick={() => (showForm ? cancelEdit() : setShowForm(true))}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary font-heading text-sm hover:bg-primary/20 transition-all mb-8"
           >
             <Plus className="w-4 h-4" /> {showForm ? "Cancel" : "Add event"}
@@ -97,18 +126,35 @@ const EventsSection = () => {
             onSubmit={submit}
             className="mb-10 p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm grid md:grid-cols-2 gap-4"
           >
+            <div className="md:col-span-2 font-display text-xs tracking-wider text-primary">
+              {editingId ? "// EDITING EVENT" : "// NEW EVENT"}
+            </div>
             <input type="text" maxLength={200} placeholder="Event / workshop title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="md:col-span-2 px-3 py-2 rounded-md bg-background border border-border text-foreground font-body text-sm focus:border-primary outline-none" />
             <input type="date" value={form.event_date} onChange={(e) => setForm({ ...form, event_date: e.target.value })} className="px-3 py-2 rounded-md bg-background border border-border text-foreground font-body text-sm focus:border-primary outline-none" />
             <input type="text" maxLength={200} placeholder="Venue / platform" value={form.venue} onChange={(e) => setForm({ ...form, venue: e.target.value })} className="px-3 py-2 rounded-md bg-background border border-border text-foreground font-body text-sm focus:border-primary outline-none" />
             <textarea maxLength={1000} rows={3} placeholder="Description (optional)" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="md:col-span-2 px-3 py-2 rounded-md bg-background border border-border text-foreground font-body text-sm focus:border-primary outline-none resize-none" />
             <input type="url" maxLength={500} placeholder="Link (optional)" value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} className="md:col-span-2 px-3 py-2 rounded-md bg-background border border-border text-foreground font-body text-sm focus:border-primary outline-none" />
             <div className="md:col-span-2 flex items-center gap-3 flex-wrap">
-              <MediaUpload folder="events" accept="image/*" onUploaded={(url) => setForm({ ...form, image_url: url })} label="Add image" />
-              {form.image_url && <img src={form.image_url} alt="" className="h-12 rounded border border-border" />}
+              <MediaUpload folder="events" accept="image/*" onUploaded={(url) => setForm({ ...form, image_url: url })} label={form.image_url ? "Replace image" : "Add image"} />
+              {form.image_url && (
+                <>
+                  <img src={form.image_url} alt="" className="h-12 rounded border border-border" />
+                  <button type="button" onClick={() => setForm({ ...form, image_url: "" })} className="text-xs text-muted-foreground hover:text-destructive font-display tracking-wider">
+                    Remove
+                  </button>
+                </>
+              )}
             </div>
-            <button type="submit" className="md:col-span-2 px-4 py-2 rounded-md bg-primary text-primary-foreground font-heading text-sm hover:bg-primary/90 transition-all">
-              Save event
-            </button>
+            <div className="md:col-span-2 flex gap-3">
+              <button type="submit" className="px-4 py-2 rounded-md bg-primary text-primary-foreground font-heading text-sm hover:bg-primary/90 transition-all">
+                {editingId ? "Update event" : "Save event"}
+              </button>
+              {editingId && (
+                <button type="button" onClick={cancelEdit} className="px-4 py-2 rounded-md border border-border text-foreground font-heading text-sm hover:bg-muted transition-all">
+                  Cancel
+                </button>
+              )}
+            </div>
           </motion.form>
         )}
 
@@ -147,9 +193,14 @@ const EventsSection = () => {
                     </a>
                   )}
                 </div>
-                <button onClick={() => remove(ev.id)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded bg-background/80 text-muted-foreground hover:text-destructive">
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
+                <div className="absolute top-2 right-2 flex gap-1.5">
+                  <button onClick={() => startEdit(ev)} title="Edit event" className="p-1.5 rounded bg-background/80 text-muted-foreground hover:text-primary transition-colors">
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                  <button onClick={() => remove(ev.id)} title="Delete event" className="p-1.5 rounded bg-background/80 text-muted-foreground hover:text-destructive transition-colors">
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </motion.div>
             ))}
           </div>
