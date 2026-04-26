@@ -12,9 +12,9 @@ const AboutSection = () => {
   const bgOrbY = useTransform(scrollYProgress, [0, 1], [100, -60]);
 
   const cards = [
-    { icon: GraduationCap, title: "B.Tech CSE (AI & ML)", desc: "GVP College For Women • CGPA: 8.0 • 2020-2024" },
-    { icon: Award, title: "3x Hackathon Winner", desc: "National-level AI hackathon champion across multiple competitions" },
-    { icon: Zap, title: "Production AI Systems", desc: "Built copilots, analytics platforms, and agentic systems at scale" },
+    { icon: GraduationCap, title: "B.Tech CSE (AI & ML)", desc: "JNTU Kakinada • CGPA: 8.0 • 2020-2024" },
+    { icon: Award, title: "3x Hackathon Winner", desc: "Smart India Hackathon winner • Accenture AI 2nd/3150 • UNESCO India-Africa finalist" },
+    { icon: Zap, title: "Production AI Systems", desc: "AI Copilots, RAG, voice agents — 60% cost cut, <10s latency at scale" },
   ];
 
   return (
@@ -42,10 +42,11 @@ const AboutSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="font-body text-lg text-muted-foreground max-w-3xl leading-relaxed mb-12"
           >
-            AI Engineer with hands-on experience in building, training, and deploying deep learning 
-            and LLM-based systems for conversational AI and audio-video intelligence. Skilled in 
-            delivering end-to-end AI solutions that combine retrieval, reasoning, and generation 
-            to drive real-world business automation.
+            AI Engineer specializing in LLM systems, conversational AI, and scalable ML infrastructure
+            with 3+ years of experience building production-grade AI copilots, RAG pipelines, and voice
+            agents. Proven track record of reducing inference costs by 60% and delivering low-latency
+            AI systems (&lt;10s response time) at scale across AWS and GCP. Winner of 3 national-level
+            AI hackathons.
           </motion.p>
         </motion.div>
 
