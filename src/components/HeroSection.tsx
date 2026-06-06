@@ -5,6 +5,7 @@ import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
 import HologramPhoto from "./HologramPhoto";
+import portfolioVideo from "@/assets/portfolio-video.mp4.asset.json";
 
 const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 
@@ -37,6 +38,26 @@ const HeroSection = () => {
 
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Ambient background video — blended into the hero */}
+      <motion.div
+        style={{ opacity: useTransform(scrollYProgress, [0, 0.6], [0.35, 0]) }}
+        className="absolute inset-0 pointer-events-none overflow-hidden"
+      >
+        <video
+          src={portfolioVideo.url}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover mix-blend-screen opacity-50"
+          style={{ filter: "hue-rotate(150deg) saturate(0.8) contrast(1.1)" }}
+        />
+        {/* Blend overlays to merge with the neural theme */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
+        <div className="absolute inset-0 bg-primary/5" />
+      </motion.div>
+
       {/* Parallax decorative layers */}
       <motion.div
         style={{ y: bgLayer1Y, x: useTransform(smoothX, [-1, 1], [-30, 30]) }}
