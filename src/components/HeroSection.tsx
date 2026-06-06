@@ -73,7 +73,7 @@ const HeroSection = () => {
         className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-glow-warm/3 blur-2xl pointer-events-none"
       />
 
-      <motion.div style={{ opacity }} className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center w-full">
+      <motion.div style={{ opacity }} className="max-w-7xl mx-auto px-6 w-full">
         {/* Left - Text */}
         <motion.div
           style={{ y: textY, x: useTransform(smoothX, [-1, 1], [-8, 8]) }}
