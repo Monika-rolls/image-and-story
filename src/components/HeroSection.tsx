@@ -4,7 +4,6 @@ import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail } from "lucide-react"
 import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
-import HologramPhoto from "./HologramPhoto";
 import portfolioVideo from "@/assets/portfolio-video.mp4.asset.json";
 
 const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
@@ -38,9 +37,9 @@ const HeroSection = () => {
 
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Ambient background video — blended into the hero */}
+      {/* Ambient background video — stronger, blended into the hero */}
       <motion.div
-        style={{ opacity: useTransform(scrollYProgress, [0, 0.6], [0.35, 0]) }}
+        style={{ opacity: useTransform(scrollYProgress, [0, 0.8], [1, 0]) }}
         className="absolute inset-0 pointer-events-none overflow-hidden"
       >
         <video
@@ -49,14 +48,16 @@ const HeroSection = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover mix-blend-screen opacity-50"
-          style={{ filter: "hue-rotate(150deg) saturate(0.8) contrast(1.1)" }}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "saturate(1.1) contrast(1.05)" }}
         />
-        {/* Blend overlays to merge with the neural theme */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
-        <div className="absolute inset-0 bg-primary/5" />
+        {/* Subtle dark + cyan blend so text stays legible but video shines through */}
+        <div className="absolute inset-0 bg-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-background/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
+        <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
       </motion.div>
+
 
       {/* Parallax decorative layers */}
       <motion.div
@@ -72,7 +73,7 @@ const HeroSection = () => {
         className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-glow-warm/3 blur-2xl pointer-events-none"
       />
 
-      <motion.div style={{ opacity }} className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center w-full">
+      <motion.div style={{ opacity }} className="max-w-7xl mx-auto px-6 w-full">
         {/* Left - Text */}
         <motion.div
           style={{ y: textY, x: useTransform(smoothX, [-1, 1], [-8, 8]) }}
@@ -174,16 +175,8 @@ const HeroSection = () => {
           </div>
         </motion.div>
 
-        {/* Right - 3D Hologram */}
-        <motion.div
-          style={{ y: photoY }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
-          <HologramPhoto />
-        </motion.div>
       </motion.div>
+
 
       {/* Scroll indicator */}
       <motion.div
