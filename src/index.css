@@ -6,56 +6,56 @@
 
 @layer base {
   :root {
-    /* ❄️ Arctic Frost theme */
-    --background: 217 47% 7%;
-    --foreground: 213 40% 91%;
+    /* 🔥 Ember Glow — warm orange theme */
+    --background: 20 28% 6%;
+    --foreground: 30 30% 92%;
 
-    --card: 218 45% 12%;
-    --card-foreground: 213 40% 91%;
+    --card: 20 25% 11%;
+    --card-foreground: 30 30% 92%;
 
-    --popover: 218 45% 12%;
-    --popover-foreground: 213 40% 91%;
+    --popover: 20 25% 11%;
+    --popover-foreground: 30 30% 92%;
 
-    --primary: 199 89% 60%;
-    --primary-foreground: 217 47% 7%;
+    --primary: 22 95% 58%;
+    --primary-foreground: 20 28% 6%;
 
-    --secondary: 218 35% 18%;
-    --secondary-foreground: 213 30% 85%;
+    --secondary: 20 22% 17%;
+    --secondary-foreground: 30 25% 88%;
 
-    --muted: 218 30% 15%;
-    --muted-foreground: 213 20% 60%;
+    --muted: 20 20% 14%;
+    --muted-foreground: 28 15% 62%;
 
-    --accent: 234 89% 74%;
-    --accent-foreground: 217 47% 7%;
+    --accent: 14 88% 60%;
+    --accent-foreground: 20 28% 6%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 30 30% 95%;
 
-    --border: 218 35% 20%;
-    --input: 218 35% 20%;
-    --ring: 199 89% 60%;
+    --border: 22 28% 20%;
+    --input: 22 28% 20%;
+    --ring: 22 95% 58%;
 
     --radius: 0.75rem;
 
-    /* Custom neural tokens */
-    --glow-primary: 199 89% 60%;
-    --glow-accent: 234 89% 74%;
-    --glow-warm: 199 95% 74%;
-    --node-bg: 218 45% 14%;
-    --neural-line: 199 70% 40%;
+    /* Custom glow tokens (kept names for backward compat) */
+    --glow-primary: 22 95% 58%;
+    --glow-accent: 14 88% 60%;
+    --glow-warm: 38 100% 65%;
+    --node-bg: 20 25% 13%;
+    --neural-line: 22 80% 45%;
 
     --font-display: 'Orbitron', monospace;
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Rajdhani', sans-serif;
 
-    --sidebar-background: 218 45% 9%;
-    --sidebar-foreground: 213 30% 85%;
-    --sidebar-primary: 199 89% 60%;
-    --sidebar-primary-foreground: 217 47% 7%;
-    --sidebar-accent: 218 35% 18%;
-    --sidebar-accent-foreground: 213 30% 85%;
-    --sidebar-border: 218 35% 20%;
-    --sidebar-ring: 199 89% 60%;
+    --sidebar-background: 20 28% 8%;
+    --sidebar-foreground: 30 25% 88%;
+    --sidebar-primary: 22 95% 58%;
+    --sidebar-primary-foreground: 20 28% 6%;
+    --sidebar-accent: 20 22% 17%;
+    --sidebar-accent-foreground: 30 25% 88%;
+    --sidebar-border: 22 28% 20%;
+    --sidebar-ring: 22 95% 58%;
   }
 }
 
