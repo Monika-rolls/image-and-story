@@ -73,7 +73,7 @@ const AboutSection = () => {
                 style={{ rotateX, rotateY, transformPerspective: 800 }}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                whileHover={{ y: -8, boxShadow: "0 0 25px hsl(175, 80%, 50%, 0.2)" }}
+                whileHover={{ y: -8, boxShadow: "0 0 25px hsl(22, 95%, 58%, 0.2)" }}
                 className="p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-colors group cursor-pointer"
               >
                 <item.icon className="w-8 h-8 text-primary mb-4 group-hover:drop-shadow-[0_0_8px_hsl(175,80%,50%,0.5)] transition-all" />

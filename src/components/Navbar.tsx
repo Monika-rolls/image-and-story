@@ -76,7 +76,7 @@ const Navbar = () => {
                   <motion.span
                     layoutId="nav-indicator"
                     className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary"
-                    style={{ boxShadow: "0 0 8px hsl(175, 80%, 50%, 0.6)" }}
+                    style={{ boxShadow: "0 0 8px hsl(22, 95%, 58%, 0.6)" }}
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
                   />
                 )}
