@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef, useMemo } from "react";
-import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail } from "lucide-react";
+import { useRef, useMemo, useState } from "react";
+import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail, Volume2, VolumeX } from "lucide-react";
 import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
@@ -11,8 +11,19 @@ const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 const HeroSection = () => {
   const { displayed: speechDisplayed, done: speechDone } = useTypewriter(speechText, 40, 2000);
   const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const mouse = useMousePosition();
+
+  const toggleMute = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    if (!v.muted) v.play().catch(() => {});
+    setMuted(v.muted);
+  };
+
 
   const smoothX = useSpring(0, { stiffness: 50, damping: 20 });
   const smoothY = useSpring(0, { stiffness: 50, damping: 20 });
@@ -40,23 +51,35 @@ const HeroSection = () => {
       {/* Ambient background video — stronger, blended into the hero */}
       <motion.div
         style={{ opacity: useTransform(scrollYProgress, [0, 0.8], [1, 0]) }}
-        className="absolute inset-0 pointer-events-none overflow-hidden"
+        className="absolute inset-0 overflow-hidden"
       >
         <video
+          ref={videoRef}
           src={portfolioVideo.url}
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           style={{ filter: "saturate(1.1) contrast(1.05)" }}
         />
         {/* Subtle dark + cyan blend so text stays legible but video shines through */}
-        <div className="absolute inset-0 bg-background/50" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-background/10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
-        <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-background/50 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-background/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background pointer-events-none" />
+        <div className="absolute inset-0 bg-primary/5 mix-blend-overlay pointer-events-none" />
+
+        {/* Sound toggle — subtle, blends with theme */}
+        <button
+          onClick={toggleMute}
+          aria-label={muted ? "Unmute video" : "Mute video"}
+          className="absolute bottom-6 right-6 z-20 p-2.5 rounded-full border border-primary/30 bg-card/60 backdrop-blur-md text-primary hover:bg-primary/10 hover:border-primary/60 transition-all glow-box"
+        >
+          {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+        </button>
       </motion.div>
+
+
 
 
       {/* Parallax decorative layers */}
