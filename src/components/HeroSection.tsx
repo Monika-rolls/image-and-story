@@ -37,9 +37,9 @@ const HeroSection = () => {
 
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Ambient background video — blended into the hero */}
+      {/* Ambient background video — stronger, blended into the hero */}
       <motion.div
-        style={{ opacity: useTransform(scrollYProgress, [0, 0.6], [0.35, 0]) }}
+        style={{ opacity: useTransform(scrollYProgress, [0, 0.8], [1, 0]) }}
         className="absolute inset-0 pointer-events-none overflow-hidden"
       >
         <video
@@ -48,14 +48,16 @@ const HeroSection = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover mix-blend-screen opacity-50"
-          style={{ filter: "hue-rotate(150deg) saturate(0.8) contrast(1.1)" }}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "saturate(1.1) contrast(1.05)" }}
         />
-        {/* Blend overlays to merge with the neural theme */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
-        <div className="absolute inset-0 bg-primary/5" />
+        {/* Subtle dark + cyan blend so text stays legible but video shines through */}
+        <div className="absolute inset-0 bg-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-background/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
+        <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
       </motion.div>
+
 
       {/* Parallax decorative layers */}
       <motion.div
