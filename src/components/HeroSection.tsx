@@ -61,12 +61,12 @@ const HeroSection = () => {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          style={{ filter: "saturate(1.1) contrast(1.05)" }}
+          style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.15)" }}
         />
-        {/* Subtle dark + cyan blend so text stays legible but video shines through */}
-        <div className="absolute inset-0 bg-background/50 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-background/10 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background pointer-events-none" />
+        {/* Lighter warm blend — keeps text legible but lets the video shine */}
+        <div className="absolute inset-0 bg-background/25 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/10 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/90 pointer-events-none" />
         <div className="absolute inset-0 bg-primary/5 mix-blend-overlay pointer-events-none" />
 
         {/* Sound toggle — subtle, blends with theme */}
