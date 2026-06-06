@@ -66,7 +66,7 @@ const HologramPhoto = () => {
           className="relative w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden"
           style={{
             transformStyle: "preserve-3d",
-            boxShadow: "0 0 60px hsl(175, 80%, 50%, 0.15), 0 0 120px hsl(175, 80%, 50%, 0.05), inset 0 0 60px hsl(175, 80%, 50%, 0.05)",
+            boxShadow: "0 0 60px hsl(22, 95%, 58%, 0.15), 0 0 120px hsl(22, 95%, 58%, 0.05), inset 0 0 60px hsl(22, 95%, 58%, 0.05)",
           }}
         >
           {/* Photo with inner parallax */}
@@ -86,7 +86,7 @@ const HologramPhoto = () => {
             animate={{ y: ["-100%", "200%"] }}
             transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 2 }}
             className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent"
-            style={{ boxShadow: "0 0 20px hsl(175, 80%, 50%, 0.4), 0 0 60px hsl(175, 80%, 50%, 0.2)" }}
+            style={{ boxShadow: "0 0 20px hsl(22, 95%, 58%, 0.4), 0 0 60px hsl(22, 95%, 58%, 0.2)" }}
           />
 
           {/* Holographic grid overlay */}
@@ -94,8 +94,8 @@ const HologramPhoto = () => {
             className="absolute inset-0 opacity-[0.03] pointer-events-none"
             style={{
               backgroundImage: `
-                linear-gradient(0deg, hsl(175, 80%, 50%) 1px, transparent 1px),
-                linear-gradient(90deg, hsl(175, 80%, 50%) 1px, transparent 1px)
+                linear-gradient(0deg, hsl(22, 95%, 58%) 1px, transparent 1px),
+                linear-gradient(90deg, hsl(22, 95%, 58%) 1px, transparent 1px)
               `,
               backgroundSize: "20px 20px",
             }}
@@ -112,11 +112,11 @@ const HologramPhoto = () => {
             className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-20"
             style={{
               background: `linear-gradient(135deg, 
-                hsl(175, 80%, 50%, 0.3) 0%, 
-                hsl(265, 70%, 60%, 0.2) 30%, 
+                hsl(22, 95%, 58%, 0.3) 0%, 
+                hsl(38, 100%, 65%, 0.2) 30%, 
                 transparent 50%, 
                 hsl(45, 90%, 60%, 0.15) 70%, 
-                hsl(175, 80%, 50%, 0.2) 100%)`,
+                hsl(22, 95%, 58%, 0.2) 100%)`,
             }}
           />
 
@@ -127,8 +127,8 @@ const HologramPhoto = () => {
           <div
             className="absolute inset-0 rounded-2xl pointer-events-none"
             style={{
-              border: "1px solid hsl(175, 80%, 50%, 0.3)",
-              boxShadow: "inset 0 0 30px hsl(175, 80%, 50%, 0.05)",
+              border: "1px solid hsl(22, 95%, 58%, 0.3)",
+              boxShadow: "inset 0 0 30px hsl(22, 95%, 58%, 0.05)",
             }}
           />
         </motion.div>
@@ -159,7 +159,7 @@ const HologramPhoto = () => {
                 x: useTransform(smoothX, [-1, 1], [-15 * mxFactor, 15 * mxFactor]),
                 y: useTransform(smoothY, [-1, 1], [-10, 10]),
               }}
-              whileHover={{ scale: 1.3, boxShadow: `0 0 20px hsl(${node.color === "primary" ? "175, 80%, 50%" : "265, 70%, 60%"}, 0.5)` }}
+              whileHover={{ scale: 1.3, boxShadow: `0 0 20px hsl(${node.color === "primary" ? "22, 95%, 58%" : "38, 100%, 65%"}, 0.5)` }}
               className={`absolute -translate-x-1/2 -translate-y-1/2 px-3 py-1 rounded-full text-[10px] font-heading tracking-widest backdrop-blur-md border ${
                 node.color === "primary"
                   ? "border-primary/30 bg-primary/10 text-primary"
@@ -180,7 +180,7 @@ const HologramPhoto = () => {
               >
                 <line
                   x1="0" y1="0" x2="100%" y2="0"
-                  stroke={node.color === "primary" ? "hsl(175, 80%, 50%)" : "hsl(265, 70%, 60%)"}
+                  stroke={node.color === "primary" ? "hsl(22, 95%, 58%)" : "hsl(38, 100%, 65%)"}
                   strokeWidth="1"
                   strokeDasharray="3 3"
                 />

@@ -54,15 +54,15 @@ const NeuralBackground = () => {
       for (const node of nodes) {
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "hsla(175, 80%, 50%, 0.5)";
+        ctx.fillStyle = "hsla(22, 95%, 58%, 0.5)";
         ctx.fill();
 
         // Glow
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius * 3, 0, Math.PI * 2);
         const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 3);
-        gradient.addColorStop(0, "hsla(175, 80%, 50%, 0.15)");
-        gradient.addColorStop(1, "hsla(175, 80%, 50%, 0)");
+        gradient.addColorStop(0, "hsla(22, 95%, 58%, 0.15)");
+        gradient.addColorStop(1, "hsla(22, 95%, 58%, 0)");
         ctx.fillStyle = gradient;
         ctx.fill();
 

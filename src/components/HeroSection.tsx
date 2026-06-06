@@ -61,12 +61,12 @@ const HeroSection = () => {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          style={{ filter: "saturate(1.1) contrast(1.05)" }}
+          style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.15)" }}
         />
-        {/* Subtle dark + cyan blend so text stays legible but video shines through */}
-        <div className="absolute inset-0 bg-background/50 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-background/10 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background pointer-events-none" />
+        {/* Lighter warm blend — keeps text legible but lets the video shine */}
+        <div className="absolute inset-0 bg-background/25 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/10 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/90 pointer-events-none" />
         <div className="absolute inset-0 bg-primary/5 mix-blend-overlay pointer-events-none" />
 
         {/* Sound toggle — subtle, blends with theme */}
@@ -120,7 +120,7 @@ const HeroSection = () => {
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-4">
             <motion.span
               className="text-foreground inline-block"
-              whileHover={{ scale: 1.02, color: "hsl(175, 80%, 50%)" }}
+              whileHover={{ scale: 1.02, color: "hsl(22, 95%, 58%)" }}
               transition={{ type: "spring", stiffness: 200 }}
             >
               Monika
@@ -128,7 +128,7 @@ const HeroSection = () => {
             <br />
             <motion.span
               className="text-primary glow-text inline-block"
-              whileHover={{ scale: 1.02, textShadow: "0 0 40px hsl(175, 80%, 50%, 0.8)" }}
+              whileHover={{ scale: 1.02, textShadow: "0 0 40px hsl(22, 95%, 58%, 0.8)" }}
               transition={{ type: "spring", stiffness: 200 }}
             >
               Kusumanchi
@@ -188,7 +188,7 @@ const HeroSection = () => {
               >
                 <motion.div
                   className="font-display text-2xl font-bold text-primary"
-                  whileHover={{ textShadow: "0 0 20px hsl(175, 80%, 50%, 0.6)" }}
+                  whileHover={{ textShadow: "0 0 20px hsl(22, 95%, 58%, 0.6)" }}
                 >
                   {stat.value}
                 </motion.div>
