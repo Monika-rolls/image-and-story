@@ -11,8 +11,19 @@ const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 const HeroSection = () => {
   const { displayed: speechDisplayed, done: speechDone } = useTypewriter(speechText, 40, 2000);
   const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const mouse = useMousePosition();
+
+  const toggleMute = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    if (!v.muted) v.play().catch(() => {});
+    setMuted(v.muted);
+  };
+
 
   const smoothX = useSpring(0, { stiffness: 50, damping: 20 });
   const smoothY = useSpring(0, { stiffness: 50, damping: 20 });
