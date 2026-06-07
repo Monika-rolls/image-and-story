@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef, useMemo } from "react";
-import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail, Download } from "lucide-react";
+import { useRef, useMemo, useState } from "react";
+import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail, Download, Volume2, VolumeX } from "lucide-react";
 import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
