@@ -61,21 +61,31 @@ const HeroSection = () => {
             style={{ width: "177.78vh", height: "100vh", minWidth: "100%", minHeight: "56.25vw" }}
           >
             <iframe
+              ref={iframeRef}
               title="background"
-              src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1`}
+              src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&enablejsapi=1`}
               allow="autoplay; encrypted-media"
               frameBorder={0}
               className="w-full h-full"
-              style={{ filter: "saturate(1.2) contrast(1.05) brightness(1.1)" }}
+              style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.2)" }}
             />
           </div>
         </div>
         {/* Blend overlays — keep text legible, let video shine */}
-        <div className="absolute inset-0 bg-background/30 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/10 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-background/15 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/55 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
         <div className="absolute inset-0 bg-primary/5 mix-blend-overlay pointer-events-none" />
       </motion.div>
+
+      {/* Sound toggle */}
+      <button
+        onClick={toggleSound}
+        aria-label={muted ? "Unmute video" : "Mute video"}
+        className="absolute top-24 right-6 z-30 w-11 h-11 rounded-full border border-primary/40 bg-card/60 backdrop-blur-md text-primary hover:bg-primary/20 hover:border-primary transition-all flex items-center justify-center glow-box"
+      >
+        {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+      </button>
 
 
 
