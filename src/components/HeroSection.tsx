@@ -11,8 +11,21 @@ const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 const HeroSection = () => {
   const { displayed: speechDisplayed, done: speechDone } = useTypewriter(speechText, 40, 2000);
   const sectionRef = useRef<HTMLElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [muted, setMuted] = useState(true);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const mouse = useMousePosition();
+
+  const toggleSound = () => {
+    const win = iframeRef.current?.contentWindow;
+    if (!win) return;
+    const cmd = muted ? "unMute" : "mute";
+    win.postMessage(JSON.stringify({ event: "command", func: cmd, args: [] }), "*");
+    win.postMessage(JSON.stringify({ event: "command", func: "setVolume", args: [80] }), "*");
+    win.postMessage(JSON.stringify({ event: "command", func: "playVideo", args: [] }), "*");
+    setMuted(!muted);
+  };
+
 
   const smoothX = useSpring(0, { stiffness: 50, damping: 20 });
   const smoothY = useSpring(0, { stiffness: 50, damping: 20 });
