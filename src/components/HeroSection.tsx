@@ -120,7 +120,7 @@ const HeroSection = () => {
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-4">
             <motion.span
               className="text-foreground inline-block"
-              whileHover={{ scale: 1.02, color: "hsl(22, 95%, 58%)" }}
+              whileHover={{ scale: 1.02, color: "hsl(265, 85%, 65%)" }}
               transition={{ type: "spring", stiffness: 200 }}
             >
               Monika
@@ -128,7 +128,7 @@ const HeroSection = () => {
             <br />
             <motion.span
               className="text-primary glow-text inline-block"
-              whileHover={{ scale: 1.02, textShadow: "0 0 40px hsl(22, 95%, 58%, 0.8)" }}
+              whileHover={{ scale: 1.02, textShadow: "0 0 40px hsl(265, 85%, 65%, 0.8)" }}
               transition={{ type: "spring", stiffness: 200 }}
             >
               Kusumanchi
@@ -188,7 +188,7 @@ const HeroSection = () => {
               >
                 <motion.div
                   className="font-display text-2xl font-bold text-primary"
-                  whileHover={{ textShadow: "0 0 20px hsl(22, 95%, 58%, 0.6)" }}
+                  whileHover={{ textShadow: "0 0 20px hsl(265, 85%, 65%, 0.6)" }}
                 >
                   {stat.value}
                 </motion.div>
