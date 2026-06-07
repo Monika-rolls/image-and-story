@@ -70,7 +70,7 @@ const CinematicIntro = ({ onComplete }: { onComplete: () => void }) => {
               top: `${p.y}%`,
               width: p.size,
               height: p.size,
-              boxShadow: `0 0 ${p.size * 4}px hsl(22, 95%, 58%, 0.4)`,
+              boxShadow: `0 0 ${p.size * 4}px hsl(265, 85%, 65%, 0.4)`,
             }}
           />
         ))}
@@ -87,7 +87,7 @@ const CinematicIntro = ({ onComplete }: { onComplete: () => void }) => {
                 key={i}
                 x1={`${x1}%`} y1={`${y1}%`}
                 x2={`${x2}%`} y2={`${y2}%`}
-                stroke="hsl(22, 95%, 58%)"
+                stroke="hsl(265, 85%, 65%)"
                 strokeWidth="0.5"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: [0, 0.5, 0] }}
@@ -105,7 +105,7 @@ const CinematicIntro = ({ onComplete }: { onComplete: () => void }) => {
             transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.2 }}
             className="mb-6"
           >
-            <Brain className="w-12 h-12 text-primary mx-auto" style={{ filter: "drop-shadow(0 0 20px hsl(22, 95%, 58%, 0.6))" }} />
+            <Brain className="w-12 h-12 text-primary mx-auto" style={{ filter: "drop-shadow(0 0 20px hsl(265, 85%, 65%, 0.6))" }} />
           </motion.div>
 
           {phase !== "particles" && (

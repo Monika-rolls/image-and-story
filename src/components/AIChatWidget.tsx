@@ -110,7 +110,7 @@ const AIChatWidget = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg cursor-hover"
-        style={{ boxShadow: "0 0 30px hsl(22, 95%, 58%, 0.3), 0 4px 20px rgba(0,0,0,0.3)" }}
+        style={{ boxShadow: "0 0 30px hsl(265, 85%, 65%, 0.3), 0 4px 20px rgba(0,0,0,0.3)" }}
       >
         <AnimatePresence mode="wait">
           {open ? (
@@ -143,7 +143,7 @@ const AIChatWidget = () => {
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[500px] rounded-2xl border border-border bg-card/95 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden"
-            style={{ boxShadow: "0 0 40px hsl(22, 95%, 58%, 0.1), 0 20px 60px rgba(0,0,0,0.4)" }}
+            style={{ boxShadow: "0 0 40px hsl(265, 85%, 65%, 0.1), 0 20px 60px rgba(0,0,0,0.4)" }}
           >
             {/* Header */}
             <div className="px-4 py-3 border-b border-border/50 flex items-center gap-3 bg-card">

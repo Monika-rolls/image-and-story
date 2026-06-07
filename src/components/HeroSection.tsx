@@ -1,29 +1,18 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef, useMemo, useState } from "react";
-import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail, Volume2, VolumeX } from "lucide-react";
+import { useRef, useMemo } from "react";
+import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail, Download } from "lucide-react";
 import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
-import portfolioVideo from "@/assets/portfolio-video.mp4.asset.json";
 
+const YT_ID = "5vn96GnoP5I";
 const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 
 const HeroSection = () => {
   const { displayed: speechDisplayed, done: speechDone } = useTypewriter(speechText, 40, 2000);
   const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState(true);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const mouse = useMousePosition();
-
-  const toggleMute = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = !v.muted;
-    if (!v.muted) v.play().catch(() => {});
-    setMuted(v.muted);
-  };
-
 
   const smoothX = useSpring(0, { stiffness: 50, damping: 20 });
   const smoothY = useSpring(0, { stiffness: 50, damping: 20 });
@@ -34,7 +23,6 @@ const HeroSection = () => {
   }, [mouse.nx, mouse.ny, smoothX, smoothY]);
 
   const textY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const photoY = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const bgLayer1Y = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const bgLayer2Y = useTransform(scrollYProgress, [0, 1], [0, -80]);
@@ -48,35 +36,32 @@ const HeroSection = () => {
 
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Ambient background video — stronger, blended into the hero */}
+      {/* Ambient background — YouTube video, blended into the hero */}
       <motion.div
         style={{ opacity: useTransform(scrollYProgress, [0, 0.8], [1, 0]) }}
         className="absolute inset-0 overflow-hidden"
       >
-        <video
-          ref={videoRef}
-          src={portfolioVideo.url}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.15)" }}
-        />
-        {/* Lighter warm blend — keeps text legible but lets the video shine */}
-        <div className="absolute inset-0 bg-background/25 pointer-events-none" />
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Oversized wrapper so YT chrome stays off-screen */}
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{ width: "177.78vh", height: "100vh", minWidth: "100%", minHeight: "56.25vw" }}
+          >
+            <iframe
+              title="background"
+              src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1`}
+              allow="autoplay; encrypted-media"
+              frameBorder={0}
+              className="w-full h-full"
+              style={{ filter: "saturate(1.2) contrast(1.05) brightness(1.1)" }}
+            />
+          </div>
+        </div>
+        {/* Blend overlays — keep text legible, let video shine */}
+        <div className="absolute inset-0 bg-background/30 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/10 to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/90 pointer-events-none" />
         <div className="absolute inset-0 bg-primary/5 mix-blend-overlay pointer-events-none" />
-
-        {/* Sound toggle — subtle, blends with theme */}
-        <button
-          onClick={toggleMute}
-          aria-label={muted ? "Unmute video" : "Mute video"}
-          className="absolute bottom-6 right-6 z-20 p-2.5 rounded-full border border-primary/30 bg-card/60 backdrop-blur-md text-primary hover:bg-primary/10 hover:border-primary/60 transition-all glow-box"
-        >
-          {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-        </button>
       </motion.div>
 
 
@@ -120,7 +105,7 @@ const HeroSection = () => {
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-4">
             <motion.span
               className="text-foreground inline-block"
-              whileHover={{ scale: 1.02, color: "hsl(22, 95%, 58%)" }}
+              whileHover={{ scale: 1.02, color: "hsl(265, 85%, 65%)" }}
               transition={{ type: "spring", stiffness: 200 }}
             >
               Monika
@@ -128,7 +113,7 @@ const HeroSection = () => {
             <br />
             <motion.span
               className="text-primary glow-text inline-block"
-              whileHover={{ scale: 1.02, textShadow: "0 0 40px hsl(22, 95%, 58%, 0.8)" }}
+              whileHover={{ scale: 1.02, textShadow: "0 0 40px hsl(265, 85%, 65%, 0.8)" }}
               transition={{ type: "spring", stiffness: 200 }}
             >
               Kusumanchi
@@ -169,6 +154,14 @@ const HeroSection = () => {
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               </MagneticButton>
             ))}
+            <MagneticButton
+              href="/Monika_Kusumanchi_Resume.pdf"
+              strength={0.35}
+              className="group flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-heading text-sm tracking-wide hover:bg-primary/90 transition-all relative overflow-hidden glow-box"
+            >
+              <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+              <span className="relative z-10">Download Resume</span>
+            </MagneticButton>
           </motion.div>
 
           {/* Stats */}
@@ -188,7 +181,7 @@ const HeroSection = () => {
               >
                 <motion.div
                   className="font-display text-2xl font-bold text-primary"
-                  whileHover={{ textShadow: "0 0 20px hsl(22, 95%, 58%, 0.6)" }}
+                  whileHover={{ textShadow: "0 0 20px hsl(265, 85%, 65%, 0.6)" }}
                 >
                   {stat.value}
                 </motion.div>

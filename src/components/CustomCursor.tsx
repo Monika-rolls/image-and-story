@@ -67,8 +67,8 @@ const CustomCursor = () => {
           className="w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white"
           style={{
             boxShadow: hovering
-              ? "0 0 20px hsl(22, 95%, 58%, 0.8), 0 0 40px hsl(22, 95%, 58%, 0.4)"
-              : "0 0 8px hsl(22, 95%, 58%, 0.4)",
+              ? "0 0 20px hsl(265, 85%, 65%, 0.8), 0 0 40px hsl(265, 85%, 65%, 0.4)"
+              : "0 0 8px hsl(265, 85%, 65%, 0.4)",
           }}
         />
       </motion.div>
