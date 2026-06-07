@@ -154,6 +154,14 @@ const HeroSection = () => {
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               </MagneticButton>
             ))}
+            <MagneticButton
+              href="/Monika_Kusumanchi_Resume.pdf"
+              strength={0.35}
+              className="group flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-heading text-sm tracking-wide hover:bg-primary/90 transition-all relative overflow-hidden glow-box"
+            >
+              <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+              <span className="relative z-10">Download Resume</span>
+            </MagneticButton>
           </motion.div>
 
           {/* Stats */}
