@@ -17,13 +17,12 @@ const HeroSection = () => {
   const mouse = useMousePosition();
 
   const toggleSound = () => {
-    const win = iframeRef.current?.contentWindow;
-    if (!win) return;
-    const cmd = muted ? "unMute" : "mute";
-    win.postMessage(JSON.stringify({ event: "command", func: cmd, args: [] }), "*");
-    win.postMessage(JSON.stringify({ event: "command", func: "setVolume", args: [80] }), "*");
-    win.postMessage(JSON.stringify({ event: "command", func: "playVideo", args: [] }), "*");
-    setMuted(!muted);
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    v.volume = 0.8;
+    v.play().catch(() => {});
+    setMuted(v.muted);
   };
 
 
