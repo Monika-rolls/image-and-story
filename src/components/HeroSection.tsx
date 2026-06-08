@@ -174,6 +174,9 @@ const HeroSection = () => {
             <MagneticButton
               href="/Monika_Kusumanchi_Resume.pdf"
               strength={0.35}
+              download="Monika_Kusumanchi_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-heading text-sm tracking-wide hover:bg-primary/90 transition-all relative overflow-hidden glow-box"
             >
               <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
