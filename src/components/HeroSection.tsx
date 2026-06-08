@@ -4,26 +4,25 @@ import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail, Download, Volume2, V
 import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
+import portfolioVideo from "@/assets/portfolio-video.mp4";
 
-const YT_ID = "5vn96GnoP5I";
 const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 
 const HeroSection = () => {
   const { displayed: speechDisplayed, done: speechDone } = useTypewriter(speechText, 40, 2000);
   const sectionRef = useRef<HTMLElement>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const mouse = useMousePosition();
 
   const toggleSound = () => {
-    const win = iframeRef.current?.contentWindow;
-    if (!win) return;
-    const cmd = muted ? "unMute" : "mute";
-    win.postMessage(JSON.stringify({ event: "command", func: cmd, args: [] }), "*");
-    win.postMessage(JSON.stringify({ event: "command", func: "setVolume", args: [80] }), "*");
-    win.postMessage(JSON.stringify({ event: "command", func: "playVideo", args: [] }), "*");
-    setMuted(!muted);
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    v.volume = 0.8;
+    v.play().catch(() => {});
+    setMuted(v.muted);
   };
 
 
@@ -54,23 +53,18 @@ const HeroSection = () => {
         style={{ opacity: useTransform(scrollYProgress, [0, 0.8], [1, 0]) }}
         className="absolute inset-0 overflow-hidden"
       >
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Oversized wrapper so YT chrome stays off-screen */}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            style={{ width: "177.78vh", height: "100vh", minWidth: "100%", minHeight: "56.25vw" }}
-          >
-            <iframe
-              ref={iframeRef}
-              title="background"
-              src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&enablejsapi=1`}
-              allow="autoplay; encrypted-media"
-              frameBorder={0}
-              className="w-full h-full"
-              style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.2)" }}
-            />
-          </div>
-        </div>
+        <video
+          ref={videoRef}
+          src={portfolioVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.2)" }}
+        />
+
         {/* Blend overlays — keep text legible, let video shine */}
         <div className="absolute inset-0 bg-background/15 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/55 via-transparent to-transparent pointer-events-none" />
@@ -180,6 +174,9 @@ const HeroSection = () => {
             <MagneticButton
               href="/Monika_Kusumanchi_Resume.pdf"
               strength={0.35}
+              download="Monika_Kusumanchi_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-heading text-sm tracking-wide hover:bg-primary/90 transition-all relative overflow-hidden glow-box"
             >
               <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />

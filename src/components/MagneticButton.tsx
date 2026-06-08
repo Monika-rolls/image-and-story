@@ -7,9 +7,12 @@ interface MagneticButtonProps {
   href?: string;
   onClick?: () => void;
   strength?: number;
+  download?: boolean | string;
+  target?: string;
+  rel?: string;
 }
 
-const MagneticButton = ({ children, className = "", href, onClick, strength = 0.3 }: MagneticButtonProps) => {
+const MagneticButton = ({ children, className = "", href, onClick, strength = 0.3, download, target, rel }: MagneticButtonProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -32,6 +35,11 @@ const MagneticButton = ({ children, className = "", href, onClick, strength = 0.
 
   const Tag = href ? "a" : "div";
 
+  const extra: Record<string, unknown> = {};
+  if (download !== undefined) extra.download = download;
+  if (target) extra.target = target;
+  if (rel) extra.rel = rel;
+
   return (
     <motion.div
       ref={ref}
@@ -44,6 +52,7 @@ const MagneticButton = ({ children, className = "", href, onClick, strength = 0.
         href={href}
         onClick={onClick}
         className={className}
+        {...extra}
       >
         {children}
       </Tag>
