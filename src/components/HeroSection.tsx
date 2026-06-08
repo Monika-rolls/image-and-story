@@ -53,23 +53,18 @@ const HeroSection = () => {
         style={{ opacity: useTransform(scrollYProgress, [0, 0.8], [1, 0]) }}
         className="absolute inset-0 overflow-hidden"
       >
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Oversized wrapper so YT chrome stays off-screen */}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            style={{ width: "177.78vh", height: "100vh", minWidth: "100%", minHeight: "56.25vw" }}
-          >
-            <iframe
-              ref={iframeRef}
-              title="background"
-              src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${YT_ID}&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&enablejsapi=1`}
-              allow="autoplay; encrypted-media"
-              frameBorder={0}
-              className="w-full h-full"
-              style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.2)" }}
-            />
-          </div>
-        </div>
+        <video
+          ref={videoRef}
+          src={portfolioVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.2)" }}
+        />
+
         {/* Blend overlays — keep text legible, let video shine */}
         <div className="absolute inset-0 bg-background/15 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/55 via-transparent to-transparent pointer-events-none" />
