@@ -11,7 +11,7 @@ const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 const HeroSection = () => {
   const { displayed: speechDisplayed, done: speechDone } = useTypewriter(speechText, 40, 2000);
   const sectionRef = useRef<HTMLElement>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
   const mouse = useMousePosition();
