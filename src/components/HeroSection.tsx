@@ -4,7 +4,8 @@ import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail, Download, Volume2, V
 import useTypewriter from "@/hooks/use-typewriter";
 import useMousePosition from "@/hooks/use-mouse-position";
 import MagneticButton from "./MagneticButton";
-import portfolioVideo from "@/assets/portfolio-video.mp4";
+import portfolioVideoAsset from "@/assets/portfolio-video.mp4.asset.json";
+const portfolioVideo = portfolioVideoAsset.url;
 
 const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
 
