@@ -1,0 +1,13 @@
+[
+  {
+    "slug": "hello-world",
+    "title": "Hello, world: why I'm writing here",
+    "date": "2026-11-01",
+    "excerpt": "Welcome to Thought Layers, my notes on AI engineering, agents, and the things I'm building.",
+    "tags": ["ai", "notes"],
+    "cover": "",
+    "link": "",
+    "draft": false,
+    "readingTime": 1
+  }
+]

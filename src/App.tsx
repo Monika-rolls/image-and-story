@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ThemePreview from "./pages/ThemePreview";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import BlogEditor from "./pages/BlogEditor";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +22,9 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/themes" element={<ThemePreview />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/write" element={<BlogEditor />} />
+          <Route path="/blog/edit/:slug" element={<BlogEditor />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
