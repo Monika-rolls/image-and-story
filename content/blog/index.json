@@ -1,10 +1,31 @@
 [
   {
+    "slug": "tiny-models-real-games",
+    "title": "Tiny Models, Real Games: A 21,699-Parameter Dino Policy, Perfect Tic-Tac-Toe, and Dino on an ESP32",
+    "date": "2026-11-07",
+    "excerpt": "How a 21,699-parameter network learned to play the Chrome Dino game with no safety net, how the same recipe produced perfect tic-tac-toe, and what it looked like running on an ESP32.",
+    "tags": [
+      "small models",
+      "PyTorch",
+      "imitation learning",
+      "game AI",
+      "ESP32",
+      "edge AI"
+    ],
+    "cover": "",
+    "link": "",
+    "draft": false,
+    "readingTime": 8
+  },
+  {
     "slug": "hello-world",
     "title": "Hello, world: why I'm writing here",
     "date": "2026-11-01",
     "excerpt": "Welcome to Thought Layers, my notes on AI engineering, agents, and the things I'm building.",
-    "tags": ["ai", "notes"],
+    "tags": [
+      "ai",
+      "notes"
+    ],
     "cover": "",
     "link": "",
     "draft": false,
