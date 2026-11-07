@@ -18,11 +18,11 @@ Azeez found the model and the recipe. I took the same recipe and tried it on oth
 
 **Tiny Dino, playing on its own:**
 
-https://raw.githubusercontent.com/Monika-rolls/image-and-story/main/public/blog/videos/tiny-dino-gameplay.mp4
+![Tiny Dino playing on its own](https://raw.githubusercontent.com/Monika-rolls/image-and-story/main/public/blog/videos/tiny-dino-gameplay.mp4)
 
 **Tiny tic-tac-toe, playing against a human:**
 
-https://raw.githubusercontent.com/Monika-rolls/image-and-story/main/public/blog/videos/tiny-tictactoe-gameplay.mp4
+![Tiny tic-tac-toe playing against a human](https://raw.githubusercontent.com/Monika-rolls/image-and-story/main/public/blog/videos/tiny-tictactoe-gameplay.mp4)
 
 ## The recipe in one picture
 
@@ -140,7 +140,7 @@ Because the teacher is exact and the check covers the whole game, this claim is 
 
 A model with ~22K parameters and ~90 KB of FP32 weights is small enough to leave the laptop. The whole forward pass is three small matrix multiplications and a few activations, so I ran the Dino policy's inference on an **ESP32** microcontroller, with the game drawn on a tiny OLED screen. The label in the corner shows the action the model picked for that frame (`RUN`, `JUMP`, or `DUCK`), next to the score.
 
-https://raw.githubusercontent.com/Monika-rolls/image-and-story/main/public/blog/videos/tiny-dino-esp32.mp4
+![Tiny Dino running on an ESP32 with an OLED screen](https://raw.githubusercontent.com/Monika-rolls/image-and-story/main/public/blog/videos/tiny-dino-esp32.mp4)
 
 ## What we took away
 
