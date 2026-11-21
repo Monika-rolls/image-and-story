@@ -1,5 +1,6 @@
+import { useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowDownToLine } from "lucide-react";
+import { ArrowDownToLine, Volume2, VolumeX } from "lucide-react";
 import { links } from "@/content/profile";
 import { EASE, Readout, btnPrimary, btnSecondary } from "./site/ui";
 
@@ -11,6 +12,21 @@ const readouts = [
 
 const HeroSection = () => {
   const reduce = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
+
+  // Starts muted (browsers only autoplay silent video); the button turns the voice on.
+  const toggleSound = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    if (!v.muted) {
+      v.volume = 0.9;
+      if (v.currentTime > 0.5 && !v.paused) v.currentTime = 0; // start the hello from the beginning
+      v.play().catch(() => {});
+    }
+    setMuted(v.muted);
+  };
   // The only entrance animation on the site: a short fade and rise, staggered.
   const rise = (i: number) =>
     reduce
@@ -22,7 +38,7 @@ const HeroSection = () => {
         };
 
   return (
-    <section className="mx-auto grid max-w-6xl items-center gap-14 px-6 pb-20 pt-14 md:pb-28 md:pt-24 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-20">
+    <section className="mx-auto grid max-w-6xl items-center gap-14 px-6 pb-20 pt-14 md:pb-28 md:pt-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-20">
       <div>
         <motion.p {...rise(0)} className="text-[15px] text-muted-foreground">
           AI engineer · Hyderabad
@@ -53,27 +69,31 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      <motion.figure {...rise(5)} className="mx-auto w-full max-w-[300px] lg:max-w-[320px]">
-        <div className="overflow-hidden rounded-[32px] border border-border bg-card p-2 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+      <motion.figure {...rise(5)} className="mx-auto w-full max-w-[440px]">
+        <div className="relative overflow-hidden rounded-[20px] border border-border bg-secondary shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
           <video
-            src="/blog/videos/mojo-scan-text.mp4"
-            poster="/blog/images/mojo-scan-text-poster.jpg"
-            className="aspect-[540/1200] w-full rounded-[24px] bg-secondary object-cover"
+            ref={videoRef}
+            src="/media/intro.mp4"
+            poster="/media/intro-poster.jpg"
+            className="aspect-[4/5] w-full object-cover object-[48%_center]"
             autoPlay={!reduce}
             muted
             loop
             playsInline
-            controls={!!reduce}
-            preload="metadata"
-            aria-label="Screen recording: Mojo reads a receipt, copies a line, then boxes the objects on a milk label"
+            preload="auto"
+            onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
+            aria-label="Monika introducing herself"
           />
+          <button
+            onClick={toggleSound}
+            aria-pressed={!muted}
+            className="absolute bottom-3 left-3 inline-flex h-9 items-center gap-2 rounded-[10px] border border-border bg-card/95 px-3 text-[13px] font-medium text-foreground transition-colors duration-150 hover:bg-card active:scale-[0.98]"
+          >
+            {muted ? <VolumeX className="h-4 w-4" strokeWidth={1.5} /> : <Volume2 className="h-4 w-4" strokeWidth={1.5} />}
+            {muted ? "Sound on" : "Sound off"}
+          </button>
         </div>
-        <figcaption className="mt-4 text-center text-[13px] leading-snug text-subtle">
-          Mojo, my phone assistant, reading a receipt with no network.{" "}
-          <a href="/blog/offline-phone-assistant-eyes-and-internet" className="text-muted-foreground underline decoration-border underline-offset-4 hover:decoration-primary">
-            How it works
-          </a>
-        </figcaption>
+        <figcaption className="mt-3 text-center text-[13px] text-subtle">A ten-second hello. Turn the sound on to hear it.</figcaption>
       </motion.figure>
     </section>
   );

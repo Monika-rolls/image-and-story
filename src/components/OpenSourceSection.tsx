@@ -1,8 +1,8 @@
 import { ArrowUpRight, GitMerge } from "lucide-react";
 import { format } from "date-fns";
-import { community, links, pullRequests } from "@/content/profile";
+import { community, links, openSourceProjects, pullRequests } from "@/content/profile";
 import EventsList from "./EventsSection";
-import { Section } from "./site/ui";
+import { Readout, Section, Stack } from "./site/ui";
 
 const Sub = ({ children }: { children: React.ReactNode }) => <h3 className="mb-4 text-[15px] font-medium">{children}</h3>;
 
@@ -22,6 +22,38 @@ const OpenSourceSection = () => (
         </div>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">{community.role.detail}</p>
       </a>
+
+      {/* Projects with several contributions get their own card */}
+      {openSourceProjects.map((p) => (
+        <article key={p.name} className="rounded-2xl border border-border bg-card p-6 md:p-8">
+          <p className="text-[13px] text-subtle">Open source · {p.owner}</p>
+          <h3 className="mt-1 text-[20px] font-medium tracking-[-0.01em]">{p.name}</h3>
+          <p className="mt-1 text-[15px] text-muted-foreground">{p.what}</p>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">{p.did}</p>
+          <div className="mt-5 grid max-w-md grid-cols-2 gap-4">
+            {p.readouts.map((r) => (
+              <Readout key={r.label} {...r} />
+            ))}
+          </div>
+          <div className="mt-5">
+            <Stack items={p.stack} />
+          </div>
+          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+            {p.links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1 text-[15px] font-medium underline decoration-border underline-offset-4 transition-colors duration-150 hover:decoration-primary"
+              >
+                {l.label}
+                <ArrowUpRight className="h-4 w-4 text-subtle transition-colors duration-150 group-hover:text-foreground" strokeWidth={1.5} />
+              </a>
+            ))}
+          </div>
+        </article>
+      ))}
 
       {/* Recent pull requests */}
       <div>

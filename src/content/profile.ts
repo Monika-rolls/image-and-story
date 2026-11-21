@@ -34,10 +34,11 @@ export const featured: Featured[] = [
       { value: "~5 s", label: "web answer" },
     ],
     media: {
-      type: "image",
-      src: "/blog/images/mojo-home-listening.jpg",
-      alt: "Mojo's home screen, the talk button while listening, and an answer card over the phone's home screen",
-      aspect: "auto",
+      type: "video",
+      src: "/blog/videos/mojo-scan-text.mp4",
+      alt: "Screen recording: Mojo reads a receipt, copies a line, then boxes the objects on a milk label",
+      aspect: "540 / 1200",
+      poster: "/blog/images/mojo-scan-text-poster.jpg",
     },
     links: [{ label: "Read the write-up", href: "/blog/offline-phone-assistant-eyes-and-internet" }],
     stack: ["Kotlin", "Cactus", "llama.cpp", "Qwen3-0.6B", "JNI"],
@@ -160,6 +161,26 @@ export const pullRequests: PullRequest[] = [
     date: "2026-10-26",
     href: "https://aiyatra.io/blog/tiny-dino-a-21-699-parameter-policy-that-plays-without-a-safety-net",
     note: "A 21,699-parameter policy that plays with no safety net",
+  },
+];
+
+/** Open-source projects with more than one contribution get their own card. */
+export const openSourceProjects = [
+  {
+    name: "agentplay",
+    owner: "Entelligence AI",
+    what: "Replays your coding-agent sessions as a map and a timeline.",
+    did: "Opened issues #50 and #66 for two agents agentplay couldn't read yet, then wrote the parsers that closed them: Command Code (one JSONL file per session) and Goose 1.10+ (sessions in SQLite, decoded next to the OpenCode reader). Both merged.",
+    readouts: [
+      { value: "2", label: "parsers merged" },
+      { value: "2", label: "issues opened and closed" },
+    ],
+    links: [
+      { label: "Goose parser, PR #69", href: "https://github.com/Entelligence-AI/agentplay/pull/69" },
+      { label: "Command Code parser, PR #51", href: "https://github.com/Entelligence-AI/agentplay/pull/51" },
+      { label: "agentplay", href: "https://entelligence.ai/agentplay" },
+    ],
+    stack: ["Python", "SQLite", "JSONL"],
   },
 ];
 
