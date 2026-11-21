@@ -1,61 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * "Lab notebook": warm paper, ink text, one vermilion marker.
+ * One neutral ramp, three text roles (foreground / muted-foreground / subtle), one accent (primary).
+ */
 @layer base {
   :root {
-    /* 🌌 Aurora Violet — deep indigo with electric violet + pink accents */
-    --background: 240 28% 6%;
-    --foreground: 250 25% 94%;
+    --background: 45 20% 96%;      /* paper  #f7f6f2 */
+    --foreground: 40 8% 10%;       /* ink    #1c1b18 */
 
-    --card: 245 25% 11%;
-    --card-foreground: 250 25% 94%;
+    --card: 0 0% 100%;
+    --card-foreground: 40 8% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 40 8% 10%;
 
-    --popover: 245 25% 11%;
-    --popover-foreground: 250 25% 94%;
+    --primary: 16 78% 42%;         /* vermilion #bf4a17, 4.9:1 on white */
+    --primary-foreground: 0 0% 100%;
 
-    --primary: 265 85% 65%;
-    --primary-foreground: 240 28% 6%;
+    --secondary: 45 14% 92%;       /* raised paper */
+    --secondary-foreground: 40 8% 10%;
+    --muted: 45 14% 92%;
+    --muted-foreground: 35 5% 36%; /* secondary text */
+    --subtle: 35 4% 46%;           /* meta text */
 
-    --secondary: 245 22% 17%;
-    --secondary-foreground: 250 25% 90%;
+    --accent: 45 14% 92%;          /* hover surface (kept neutral on purpose) */
+    --accent-foreground: 40 8% 10%;
 
-    --muted: 245 20% 14%;
-    --muted-foreground: 250 15% 65%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --accent: 320 85% 65%;
-    --accent-foreground: 240 28% 6%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 250 25% 95%;
-
-    --border: 260 28% 22%;
-    --input: 260 28% 22%;
-    --ring: 265 85% 65%;
+    --border: 40 10% 87%;
+    --input: 40 10% 84%;
+    --ring: 16 78% 42%;
 
     --radius: 0.75rem;
 
-    /* Custom glow tokens */
-    --glow-primary: 265 85% 65%;
-    --glow-accent: 320 85% 65%;
-    --glow-warm: 280 100% 75%;
-    --node-bg: 245 25% 13%;
-    --neural-line: 265 70% 50%;
+    --sidebar-background: 45 20% 96%;
+    --sidebar-foreground: 40 8% 10%;
+    --sidebar-primary: 16 78% 42%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 45 14% 92%;
+    --sidebar-accent-foreground: 40 8% 10%;
+    --sidebar-border: 40 10% 87%;
+    --sidebar-ring: 16 78% 42%;
+  }
 
-    --font-display: 'Orbitron', monospace;
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Rajdhani', sans-serif;
-
-    --sidebar-background: 240 28% 8%;
-    --sidebar-foreground: 250 25% 90%;
-    --sidebar-primary: 265 85% 65%;
-    --sidebar-primary-foreground: 240 28% 6%;
-    --sidebar-accent: 245 22% 17%;
-    --sidebar-accent-foreground: 250 25% 90%;
-    --sidebar-border: 260 28% 22%;
-    --sidebar-ring: 265 85% 65%;
+  .dark {
+    --background: 40 6% 8%;        /* #161513 */
+    --foreground: 40 12% 92%;
+    --card: 40 5% 11%;
+    --card-foreground: 40 12% 92%;
+    --popover: 40 5% 11%;
+    --popover-foreground: 40 12% 92%;
+    --primary: 20 85% 62%;
+    --primary-foreground: 40 6% 8%;
+    --secondary: 40 5% 15%;
+    --secondary-foreground: 40 12% 92%;
+    --muted: 40 5% 15%;
+    --muted-foreground: 35 6% 68%;
+    --subtle: 35 4% 56%;
+    --accent: 40 5% 15%;
+    --accent-foreground: 40 12% 92%;
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 40 6% 8%;
+    --border: 40 5% 18%;
+    --input: 40 5% 22%;
+    --ring: 20 85% 62%;
+    --sidebar-background: 40 6% 8%;
+    --sidebar-foreground: 40 12% 92%;
+    --sidebar-primary: 20 85% 62%;
+    --sidebar-primary-foreground: 40 6% 8%;
+    --sidebar-accent: 40 5% 15%;
+    --sidebar-accent-foreground: 40 12% 92%;
+    --sidebar-border: 40 5% 18%;
+    --sidebar-ring: 20 85% 62%;
   }
 }
 
@@ -63,54 +85,49 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-body);
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
-  h1, h2, h3 {
-    font-family: var(--font-heading);
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+    font-feature-settings: "ss01";
+  }
+  ::selection {
+    background: hsl(var(--primary) / 0.18);
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: var(--font-display);
-  }
-  .font-heading {
-    font-family: var(--font-heading);
-  }
+  /* Old class names still used by the blog editor; they now map onto the one type family. */
+  .font-display,
+  .font-heading,
   .font-body {
-    font-family: var(--font-body);
+    font-family: theme("fontFamily.sans");
   }
-  .glow-text {
-    text-shadow: 0 0 20px hsl(var(--glow-primary) / 0.6), 0 0 40px hsl(var(--glow-primary) / 0.3);
+  .text-subtle {
+    color: hsl(var(--subtle));
   }
-  .glow-box {
-    box-shadow: 0 0 15px hsl(var(--glow-primary) / 0.2), 0 0 30px hsl(var(--glow-primary) / 0.1), inset 0 1px 0 hsl(var(--glow-primary) / 0.1);
-  }
-  .glow-accent-box {
-    box-shadow: 0 0 15px hsl(var(--glow-accent) / 0.2), 0 0 30px hsl(var(--glow-accent) / 0.1);
-  }
-  .neural-grid {
-    background-image: 
-      radial-gradient(circle at 1px 1px, hsl(var(--neural-line) / 0.15) 1px, transparent 0);
-    background-size: 40px 40px;
+  .ease-out-quint {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.3);
-  border-radius: 3px;
-}
-
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

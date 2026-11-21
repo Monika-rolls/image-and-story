@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Eye, Github, ImagePlus, Loader2, LogOut, Save, Send, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
-import NeuralBackground from "@/components/NeuralBackground";
 import BlogMarkdown from "@/components/BlogMarkdown";
 import {
   BLOG_REPO,
@@ -219,7 +218,6 @@ const BlogEditor = () => {
 
   return (
     <div className="relative min-h-screen bg-background">
-      <NeuralBackground />
       <main className="relative z-10 max-w-6xl mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-8">
           <Link to="/blog" className="inline-flex items-center gap-2 text-primary font-heading text-sm hover:gap-3 transition-all">

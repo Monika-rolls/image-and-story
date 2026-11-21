@@ -35,7 +35,7 @@ const MediaUpload = ({ folder, accept = "image/*,video/*", onUploaded, label = "
   };
 
   return (
-    <label className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-primary/30 bg-primary/5 text-primary font-heading text-xs cursor-pointer hover:bg-primary/10 transition-all">
+    <label className="inline-flex h-9 items-center gap-2 rounded-[10px] border border-border bg-card px-3 text-[13px] font-medium text-foreground cursor-pointer transition-colors duration-150 hover:bg-secondary">
       {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
       {uploading ? "Uploading..." : label}
       <input

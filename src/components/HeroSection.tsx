@@ -1,234 +1,80 @@
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef, useMemo, useState } from "react";
-import { ArrowDown, Sparkles, FolderOpen, User, Code, Mail, Download, Volume2, VolumeX } from "lucide-react";
-import useTypewriter from "@/hooks/use-typewriter";
-import useMousePosition from "@/hooks/use-mouse-position";
-import MagneticButton from "./MagneticButton";
-const portfolioVideo = "https://zsyplodpjmfvkjdbbtbz.supabase.co/storage/v1/object/public/portfolio-media/hero/portfolio-video.mp4";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowDownToLine } from "lucide-react";
+import { links } from "@/content/profile";
+import { EASE, Readout, btnPrimary, btnSecondary } from "./site/ui";
 
-const speechText = "Hi, I'm Monika. Want a quick tour of what I build?";
+const readouts = [
+  { value: "92%", label: "call-insight accuracy in production at Runo" },
+  { value: "0.8 s", label: "camera scan, on the phone, offline" },
+  { value: "21,699", label: "parameters in a game policy on an ESP32" },
+];
 
 const HeroSection = () => {
-  const { displayed: speechDisplayed, done: speechDone } = useTypewriter(speechText, 40, 2000);
-  const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState(true);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
-  const mouse = useMousePosition();
-
-  const toggleSound = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = !v.muted;
-    v.volume = 0.8;
-    v.play().catch(() => {});
-    setMuted(v.muted);
-  };
-
-
-  const smoothX = useSpring(0, { stiffness: 50, damping: 20 });
-  const smoothY = useSpring(0, { stiffness: 50, damping: 20 });
-
-  useMemo(() => {
-    smoothX.set(mouse.nx);
-    smoothY.set(mouse.ny);
-  }, [mouse.nx, mouse.ny, smoothX, smoothY]);
-
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const bgLayer1Y = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const bgLayer2Y = useTransform(scrollYProgress, [0, 1], [0, -80]);
-
-  const navButtons = [
-    { label: "Show Projects", href: "#projects", icon: FolderOpen },
-    { label: "About Me", href: "#about", icon: User },
-    { label: "Skills", href: "#skills", icon: Code },
-    { label: "Contact", href: "#contact", icon: Mail },
-  ];
+  const reduce = useReducedMotion();
+  // The only entrance animation on the site: a short fade and rise, staggered.
+  const rise = (i: number) =>
+    reduce
+      ? {}
+      : {
+          initial: { opacity: 0, y: 8 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.45, delay: 0.05 + i * 0.05, ease: EASE },
+        };
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Ambient background — YouTube video, blended into the hero */}
-      <motion.div
-        style={{ opacity: useTransform(scrollYProgress, [0, 0.8], [1, 0]) }}
-        className="absolute inset-0 overflow-hidden"
-      >
-        <video
-          ref={videoRef}
-          src={portfolioVideo}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: "saturate(1.25) contrast(1.1) brightness(1.2)" }}
-        />
-
-        {/* Blend overlays — keep text legible, let video shine */}
-        <div className="absolute inset-0 bg-background/15 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/55 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
-        <div className="absolute inset-0 bg-primary/5 mix-blend-overlay pointer-events-none" />
-      </motion.div>
-
-      {/* Sound toggle */}
-      <button
-        onClick={toggleSound}
-        aria-label={muted ? "Unmute video" : "Mute video"}
-        className="absolute top-24 right-6 z-30 w-11 h-11 rounded-full border border-primary/40 bg-card/60 backdrop-blur-md text-primary hover:bg-primary/20 hover:border-primary transition-all flex items-center justify-center glow-box"
-      >
-        {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-      </button>
-
-
-
-
-      {/* Parallax decorative layers */}
-      <motion.div
-        style={{ y: bgLayer1Y, x: useTransform(smoothX, [-1, 1], [-30, 30]) }}
-        className="absolute top-20 -left-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none"
-      />
-      <motion.div
-        style={{ y: bgLayer2Y, x: useTransform(smoothX, [-1, 1], [20, -20]) }}
-        className="absolute -bottom-20 -right-32 w-[30rem] h-[30rem] rounded-full bg-accent/5 blur-3xl pointer-events-none"
-      />
-      <motion.div
-        style={{ x: useTransform(smoothX, [-1, 1], [-40, 40]), y: useTransform(smoothY, [-1, 1], [-40, 40]) }}
-        className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-glow-warm/3 blur-2xl pointer-events-none"
-      />
-
-      <motion.div style={{ opacity }} className="max-w-7xl mx-auto px-6 w-full">
-        {/* Left - Text */}
-        <motion.div
-          style={{ y: textY, x: useTransform(smoothX, [-1, 1], [-8, 8]) }}
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="relative z-10"
+    <section className="mx-auto grid max-w-6xl items-center gap-14 px-6 pb-20 pt-14 md:pb-28 md:pt-24 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-20">
+      <div>
+        <motion.p {...rise(0)} className="text-[15px] text-muted-foreground">
+          AI engineer · Hyderabad
+        </motion.p>
+        <motion.h1
+          {...rise(1)}
+          className="mt-5 text-[40px] font-medium leading-[1.06] tracking-[-0.03em] text-foreground md:text-[60px] md:leading-[1.03]"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 mb-6"
-          >
-            <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}>
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
-            </motion.div>
-            <span className="font-heading text-xs tracking-widest text-primary uppercase">AI Engineer</span>
-          </motion.div>
-
-          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-4">
-            <motion.span
-              className="text-foreground inline-block"
-              whileHover={{ scale: 1.02, color: "hsl(265, 85%, 65%)" }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              Monika
-            </motion.span>
-            <br />
-            <motion.span
-              className="text-primary glow-text inline-block"
-              whileHover={{ scale: 1.02, textShadow: "0 0 40px hsl(265, 85%, 65%, 0.8)" }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              Kusumanchi
-            </motion.span>
-          </h1>
-
-          {/* Speech Bubble */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.6, type: "spring" }}
-            className="relative bg-card/80 backdrop-blur-md border border-primary/20 rounded-2xl rounded-bl-sm px-5 py-3 mb-6 max-w-md glow-box"
-          >
-            <p className="font-body text-base text-foreground min-h-[1.5rem]">
-              {speechDisplayed}
-              {!speechDone && <span className="inline-block w-0.5 h-4 bg-primary ml-0.5 animate-pulse-glow align-middle" />}
-            </p>
-            {/* Speech bubble tail */}
-            <div className="absolute -bottom-2 left-4 w-4 h-4 bg-card/80 border-b border-l border-primary/20 rotate-[-45deg]" />
-          </motion.div>
-
-          {/* Navigation Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2.2 }}
-            className="flex flex-wrap gap-3 mb-8"
-          >
-            {navButtons.map((btn, i) => (
-              <MagneticButton
-                key={btn.label}
-                href={btn.href}
-                strength={0.3}
-                className="group flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border bg-card/50 backdrop-blur-sm text-foreground font-heading text-sm tracking-wide hover:border-primary/50 hover:bg-primary/5 transition-all relative overflow-hidden"
-              >
-                <btn.icon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
-                <span className="relative z-10">{btn.label}</span>
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-              </MagneticButton>
-            ))}
-            <MagneticButton
-              href="/Monika_Kusumanchi_Resume.pdf"
-              strength={0.35}
-              download="Monika_Kusumanchi_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-heading text-sm tracking-wide hover:bg-primary/90 transition-all relative overflow-hidden glow-box"
-            >
-              <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
-              <span className="relative z-10">Download Resume</span>
-            </MagneticButton>
-          </motion.div>
-
-          {/* Stats */}
-          <div className="flex gap-8">
-            {[
-              { value: "3+", label: "Hackathon Wins" },
-              { value: "4+", label: "Companies" },
-              { value: "60%", label: "Cost Reduction" },
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.5 + i * 0.15 }}
-                whileHover={{ scale: 1.1, y: -4 }}
-                className="cursor-default"
-              >
-                <motion.div
-                  className="font-display text-2xl font-bold text-primary"
-                  whileHover={{ textShadow: "0 0 20px hsl(265, 85%, 65%, 0.6)" }}
-                >
-                  {stat.value}
-                </motion.div>
-                <div className="font-body text-xs text-muted-foreground tracking-wide">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
+          I build voice agents and LLM systems that run in production, and small models that run on a phone.
+        </motion.h1>
+        <motion.p {...rise(2)} className="mt-6 max-w-xl text-[17px] leading-relaxed text-muted-foreground">
+          At Runo I ship outbound voice agents, call analytics and a CRM copilot. On the side I make models small enough
+          for phones and microcontrollers, and write up what I measure, including what didn't work.
+        </motion.p>
+        <motion.div {...rise(3)} className="mt-8 flex flex-wrap gap-3">
+          <a href={links.resume} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
+            <ArrowDownToLine className="h-4 w-4" strokeWidth={1.5} />
+            Download resume
+          </a>
+          <a href="#contact" className={btnSecondary}>
+            Get in touch
+          </a>
         </motion.div>
+        <motion.div {...rise(4)} className="mt-12 grid max-w-xl grid-cols-1 gap-5 sm:grid-cols-3">
+          {readouts.map((r) => (
+            <Readout key={r.label} {...r} />
+          ))}
+        </motion.div>
+      </div>
 
-      </motion.div>
-
-
-      {/* Scroll indicator */}
-      <motion.div
-        style={{ opacity }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 3 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <MagneticButton href="#about" strength={0.5}>
-          <div className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-            <span className="font-heading text-xs tracking-widest">SCROLL</span>
-            <ArrowDown className="w-4 h-4 animate-bounce" />
-          </div>
-        </MagneticButton>
-      </motion.div>
+      <motion.figure {...rise(5)} className="mx-auto w-full max-w-[300px] lg:max-w-[320px]">
+        <div className="overflow-hidden rounded-[32px] border border-border bg-card p-2 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+          <video
+            src="/blog/videos/mojo-scan-text.mp4"
+            poster="/blog/images/mojo-scan-text-poster.jpg"
+            className="aspect-[540/1200] w-full rounded-[24px] bg-secondary object-cover"
+            autoPlay={!reduce}
+            muted
+            loop
+            playsInline
+            controls={!!reduce}
+            preload="metadata"
+            aria-label="Screen recording: Mojo reads a receipt, copies a line, then boxes the objects on a milk label"
+          />
+        </div>
+        <figcaption className="mt-4 text-center text-[13px] leading-snug text-subtle">
+          Mojo, my phone assistant, reading a receipt with no network.{" "}
+          <a href="/blog/offline-phone-assistant-eyes-and-internet" className="text-muted-foreground underline decoration-border underline-offset-4 hover:decoration-primary">
+            How it works
+          </a>
+        </figcaption>
+      </motion.figure>
     </section>
   );
 };

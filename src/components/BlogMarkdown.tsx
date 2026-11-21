@@ -3,7 +3,9 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { embedUrl, slugify, VIDEO_EXT_RE } from "@/lib/blog";
 
-const videoCls = "w-full aspect-video rounded-lg border border-border my-6 bg-black";
+// Phone recordings are portrait: cap the height instead of forcing 16:9 letterboxing.
+const videoCls = "mx-auto block max-h-[78vh] max-w-full rounded-xl border border-border my-8 bg-secondary";
+const embedCls = "w-full aspect-video rounded-xl border border-border my-8 bg-secondary";
 
 /** A paragraph that is just a bare YouTube/Vimeo/Loom link becomes an embedded player. */
 const embedFor = (children: ReactNode) => {
@@ -39,10 +41,10 @@ const heading =
   );
 
 const components: Components = {
-  h1: ({ children }) => <h2 className="font-heading text-3xl font-bold text-foreground mt-10 mb-4">{children}</h2>,
-  h2: heading("h2", "font-heading text-2xl md:text-3xl font-bold text-foreground mt-10 mb-4"),
-  h3: heading("h3", "font-heading text-xl font-semibold text-foreground mt-8 mb-3"),
-  h4: ({ children }) => <h4 className="font-heading text-lg font-semibold text-foreground mt-6 mb-2">{children}</h4>,
+  h1: ({ children }) => <h2 className="text-[26px] font-medium tracking-[-0.01em] text-foreground mt-12 mb-4">{children}</h2>,
+  h2: heading("h2", "text-[24px] md:text-[28px] font-medium tracking-[-0.01em] leading-tight text-foreground mt-14 mb-4"),
+  h3: heading("h3", "text-[19px] font-medium text-foreground mt-10 mb-3"),
+  h4: ({ children }) => <h4 className="text-[17px] font-medium text-foreground mt-8 mb-2">{children}</h4>,
   p: ({ children }) => {
     const embed = embedFor(children);
     if (embed)
@@ -53,26 +55,26 @@ const components: Components = {
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           allowFullScreen
-          className={videoCls}
+          className={embedCls}
         />
       );
-    return <p className="font-body text-foreground/90 leading-relaxed mb-5">{children}</p>;
+    return <p className="text-[17px] leading-[1.7] text-foreground/90 mb-5">{children}</p>;
   },
   a: ({ href, children }) => (
     <a
       href={href}
       target={href?.startsWith("http") ? "_blank" : undefined}
       rel="noopener noreferrer"
-      className="text-primary underline underline-offset-4 decoration-primary/40 hover:decoration-primary"
+      className="text-foreground underline underline-offset-4 decoration-primary/50 hover:decoration-primary"
     >
       {children}
     </a>
   ),
-  ul: ({ children }) => <ul className="list-disc pl-6 mb-5 space-y-1.5 font-body text-foreground/90 marker:text-primary">{children}</ul>,
-  ol: ({ children }) => <ol className="list-decimal pl-6 mb-5 space-y-1.5 font-body text-foreground/90 marker:text-primary">{children}</ol>,
+  ul: ({ children }) => <ul className="list-disc pl-6 mb-5 space-y-1.5 text-[17px] leading-[1.7] text-foreground/90 marker:text-subtle">{children}</ul>,
+  ol: ({ children }) => <ol className="list-decimal pl-6 mb-5 space-y-1.5 text-[17px] leading-[1.7] text-foreground/90 marker:text-subtle">{children}</ol>,
   li: ({ children }) => <li className="leading-relaxed">{children}</li>,
   blockquote: ({ children }) => (
-    <blockquote className="border-l-2 border-primary pl-4 my-6 italic text-muted-foreground">{children}</blockquote>
+    <blockquote className="border-l-2 border-primary pl-4 my-6 text-muted-foreground">{children}</blockquote>
   ),
   hr: () => <hr className="my-10 border-border" />,
   // ![caption](clip.mp4) renders as a video player; everything else as an image.
@@ -80,22 +82,22 @@ const components: Components = {
     src && VIDEO_EXT_RE.test(src) ? (
       <video src={src} controls preload="metadata" playsInline aria-label={alt || "Video"} className={videoCls} />
     ) : (
-      <img src={src} alt={alt ?? ""} loading="lazy" className="w-full rounded-lg border border-border my-6" />
+      <img src={src} alt={alt ?? ""} loading="lazy" className="w-full rounded-xl border border-border my-8 bg-card" />
     ),
   pre: ({ children }) => (
-    <pre className="my-6 p-4 rounded-lg bg-card border border-border overflow-x-auto text-sm leading-relaxed [&>code]:bg-transparent [&>code]:p-0">
+    <pre className="my-6 p-4 rounded-xl bg-card border border-border font-mono overflow-x-auto text-sm leading-relaxed [&>code]:bg-transparent [&>code]:p-0">
       {children}
     </pre>
   ),
   code: ({ children, className }) => (
-    <code className={`font-mono text-[0.9em] px-1.5 py-0.5 rounded bg-primary/10 text-primary ${className ?? ""}`}>{children}</code>
+    <code className={`font-mono text-[0.9em] px-1.5 py-0.5 rounded-md bg-secondary text-foreground ${className ?? ""}`}>{children}</code>
   ),
   table: ({ children }) => (
     <div className="my-6 overflow-x-auto">
-      <table className="w-full text-sm border-collapse font-body">{children}</table>
+      <table className="w-full text-[14.5px] border-collapse tabular-nums">{children}</table>
     </div>
   ),
-  th: ({ children }) => <th className="border border-border px-3 py-2 text-left font-heading bg-card">{children}</th>,
+  th: ({ children }) => <th className="border border-border px-3 py-2 text-left font-medium bg-secondary">{children}</th>,
   td: ({ children }) => <td className="border border-border px-3 py-2">{children}</td>,
 };
 

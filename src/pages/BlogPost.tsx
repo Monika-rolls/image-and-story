@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Clock, ExternalLink, Pencil } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Pencil } from "lucide-react";
 import { format } from "date-fns";
-import NeuralBackground from "@/components/NeuralBackground";
-import ScrollProgress from "@/components/ScrollProgress";
+import Navbar from "@/components/Navbar";
 import BlogMarkdown, { extractToc } from "@/components/BlogMarkdown";
 import { getToken, loadPost, loadPostList, type Post, type PostMeta } from "@/lib/blog";
 
@@ -33,73 +31,57 @@ const BlogPost = () => {
   const toc = post ? extractToc(post.body) : [];
 
   return (
-    <div className="relative min-h-screen bg-background">
-      <ScrollProgress />
-      <NeuralBackground />
-      <main className="relative z-10 max-w-6xl mx-auto px-6 py-16">
-        <div className="flex items-center justify-between mb-10">
-          <Link to="/blog" className="inline-flex items-center gap-2 text-primary font-heading text-sm hover:gap-3 transition-all">
-            <ArrowLeft className="w-4 h-4" /> All posts
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main className="mx-auto max-w-6xl px-6 pb-24 pt-10 md:pt-14">
+        <div className="flex items-center justify-between">
+          <Link to="/blog" className="inline-flex items-center gap-1.5 text-[14px] text-muted-foreground transition-colors duration-150 hover:text-foreground">
+            <ArrowLeft className="h-4 w-4" strokeWidth={1.5} /> All posts
           </Link>
           {post && isAuthor && (
-            <Link
-              to={`/blog/edit/${post.slug}`}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-primary/30 text-primary font-heading text-xs hover:bg-primary/10 transition-all"
-            >
-              <Pencil className="w-3.5 h-3.5" /> Edit
+            <Link to={`/blog/edit/${post.slug}`} className="inline-flex h-8 items-center gap-1.5 rounded-[10px] border border-border bg-card px-3 text-[13px] font-medium hover:bg-secondary">
+              <Pencil className="h-3.5 w-3.5" strokeWidth={1.5} /> Edit
             </Link>
           )}
         </div>
 
-        {loading && <p className="font-body text-muted-foreground">Loading...</p>}
+        {loading && <p className="mt-12 text-muted-foreground">Loading</p>}
         {!loading && !post && (
-          <div className="p-12 rounded-xl border border-dashed border-border text-center">
-            <p className="font-body text-muted-foreground">This post doesn't exist (or was just published and is still syncing; try again in a minute).</p>
-          </div>
+          <p className="mt-12 max-w-xl text-muted-foreground">
+            This post doesn't exist, or it was just published and is still syncing. Try again in a minute.
+          </p>
         )}
 
         {post && (
-          <motion.article initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <header className="max-w-3xl mb-10">
-              <div className="flex flex-wrap items-center gap-3 font-display text-xs tracking-wider text-muted-foreground mb-4">
-                <time>{format(new Date(`${post.date}T00:00:00`), "MMMM d, yyyy")}</time>
-                <span className="inline-flex items-center gap-1">
-                  <Clock className="w-3 h-3" /> {post.readingTime} min read
-                </span>
-                {post.draft && <span className="px-1.5 py-0.5 rounded bg-destructive/15 text-destructive">DRAFT</span>}
-              </div>
-              <h1 className="font-heading text-4xl md:text-5xl font-bold text-foreground leading-tight mb-4">{post.title}</h1>
-              {post.excerpt && <p className="font-body text-lg text-muted-foreground leading-relaxed">{post.excerpt}</p>}
+          <article className="mt-10">
+            <header className="max-w-3xl">
+              <p className="font-mono text-[12.5px] tabular-nums text-subtle">
+                {format(new Date(`${post.date}T00:00:00`), "MMMM d, yyyy")} · {post.readingTime} min read
+                {post.draft && <span className="text-destructive"> · Draft</span>}
+              </p>
+              <h1 className="mt-4 text-[34px] font-medium leading-[1.1] tracking-[-0.02em] md:text-[46px] md:leading-[1.06] md:tracking-[-0.03em]">
+                {post.title}
+              </h1>
+              {post.excerpt && <p className="mt-5 text-[18px] leading-relaxed text-muted-foreground">{post.excerpt}</p>}
               {post.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-5">
+                <div className="mt-5 flex flex-wrap gap-x-4 gap-y-1">
                   {post.tags.map((t) => (
-                    <Link
-                      key={t}
-                      to={`/blog?tag=${encodeURIComponent(t)}`}
-                      className="px-2 py-0.5 rounded-full border border-primary/30 bg-primary/5 text-primary font-heading text-[11px] hover:bg-primary/15 transition-all"
-                    >
-                      #{t}
+                    <Link key={t} to={`/blog?tag=${encodeURIComponent(t)}`} className="text-[13.5px] text-subtle transition-colors duration-150 hover:text-foreground">
+                      {t}
                     </Link>
                   ))}
                 </div>
               )}
             </header>
 
-            {post.cover && (
-              <img src={post.cover} alt="" className="w-full max-h-[480px] object-cover rounded-2xl border border-border mb-12" />
-            )}
+            {post.cover && <img src={post.cover} alt="" className="mt-10 max-h-[480px] w-full rounded-2xl border border-border object-cover" />}
 
-            <div className="grid lg:grid-cols-[minmax(0,1fr)_220px] gap-12">
-              <div className="max-w-3xl min-w-0">
+            <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_220px]">
+              <div className="min-w-0 max-w-[68ch]">
                 <BlogMarkdown>{post.body}</BlogMarkdown>
                 {post.link && (
-                  <a
-                    href={post.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-4 text-primary font-heading text-xs tracking-wider hover:gap-3 transition-all"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" /> Originally posted here
+                  <a href={post.link} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1 text-[14px] font-medium underline decoration-border underline-offset-4 hover:decoration-primary">
+                    Originally posted here <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </a>
                 )}
               </div>
@@ -107,11 +89,11 @@ const BlogPost = () => {
               {toc.length > 1 && (
                 <aside className="hidden lg:block">
                   <nav className="sticky top-24">
-                    <p className="font-display text-xs tracking-[0.3em] text-primary mb-3">ON THIS PAGE</p>
-                    <ul className="space-y-2 border-l border-border">
+                    <p className="mb-3 text-[13px] text-subtle">On this page</p>
+                    <ul className="flex flex-col gap-2 border-l border-border">
                       {toc.map((h) => (
                         <li key={h.id} className={h.level === 3 ? "pl-6" : "pl-3"}>
-                          <a href={`#${h.id}`} className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">
+                          <a href={`#${h.id}`} className="text-[13.5px] leading-snug text-muted-foreground transition-colors duration-150 hover:text-foreground">
                             {h.text}
                           </a>
                         </li>
@@ -121,24 +103,18 @@ const BlogPost = () => {
                 </aside>
               )}
             </div>
-          </motion.article>
+          </article>
         )}
 
         {related.length > 0 && (
-          <section className="mt-20 pt-10 border-t border-border">
-            <h2 className="font-display text-sm tracking-[0.3em] text-primary mb-6">// KEEP READING</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+          <section className="mt-20 border-t border-border pt-10">
+            <h2 className="mb-6 text-[15px] font-medium">Keep reading</h2>
+            <div className="grid gap-5 md:grid-cols-3">
               {related.map((r) => (
-                <Link
-                  key={r.slug}
-                  to={`/blog/${r.slug}`}
-                  className="group p-5 rounded-xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/40 transition-all"
-                >
-                  <time className="font-display text-xs tracking-wider text-muted-foreground">
-                    {format(new Date(`${r.date}T00:00:00`), "MMM d, yyyy")}
-                  </time>
-                  <h3 className="font-heading font-semibold text-foreground group-hover:text-primary transition-colors mt-2 mb-2">{r.title}</h3>
-                  <p className="font-body text-sm text-muted-foreground line-clamp-2">{r.excerpt}</p>
+                <Link key={r.slug} to={`/blog/${r.slug}`} className="group rounded-2xl border border-border bg-card p-5 transition-colors duration-150 hover:border-foreground/20">
+                  <p className="font-mono text-[12.5px] text-subtle">{format(new Date(`${r.date}T00:00:00`), "MMM d, yyyy")}</p>
+                  <h3 className="mt-2 text-[16px] font-medium leading-snug">{r.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-[14px] text-muted-foreground">{r.excerpt}</p>
                 </Link>
               ))}
             </div>
