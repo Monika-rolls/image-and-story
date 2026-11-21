@@ -3,7 +3,7 @@
     "slug": "offline-phone-assistant-eyes-and-internet",
     "title": "Giving My Offline Phone Assistant Eyes and the Internet",
     "date": "2026-11-21",
-    "excerpt": "Mojo, my on-device Android voice assistant, can now look through the camera with Cactus Mirage, a 21.6 MB vision model, and search the web when it's online, without any API keys. The photos never leave the phone.",
+    "excerpt": "Mojo, my on-device Android voice assistant, can now look through the camera with Cactus Mirage, read text from photos, and search the web when it's online, without any API keys. Updated with a redesign of its own and a voice-ribbon listening animation.",
     "tags": [
       "on-device AI",
       "Android",
@@ -12,10 +12,10 @@
       "voice assistant",
       "edge AI"
     ],
-    "cover": "/blog/images/mojo-architecture.svg",
+    "cover": "/blog/images/mojo-home-listening.jpg",
     "link": "",
     "draft": false,
-    "readingTime": 8
+    "readingTime": 10
   },
   {
     "slug": "tiny-models-real-games",

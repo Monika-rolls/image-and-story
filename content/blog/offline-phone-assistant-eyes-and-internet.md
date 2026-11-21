@@ -1,7 +1,7 @@
 ---
 title: "Giving My Offline Phone Assistant Eyes and the Internet"
 date: 2026-11-21
-excerpt: "Mojo, my on-device Android voice assistant, can now look through the camera with Cactus Mirage, a 21.6 MB vision model, and search the web when it's online, without any API keys. The photos never leave the phone."
+excerpt: "Mojo, my on-device Android voice assistant, can now look through the camera with Cactus Mirage, read text from photos, and search the web when it's online, without any API keys. Updated with a redesign of its own and a voice-ribbon listening animation."
 tags: ["on-device AI", "Android", "vision", "Cactus", "voice assistant", "edge AI"]
 draft: false
 ---
@@ -16,6 +16,34 @@ Mojo is a voice assistant I'm building that runs entirely on my own phone: a Rea
 - **Underdog Woof** speaks the replies in a voice called "Juno". A "Hey Mojo" wake word starts it all hands-free.
 
 Mojo could hear and talk, but it was blind, and it only knew what a 0.6B model remembered from training. This post covers the two things I added: **eyes** (Cactus Mirage on the camera) and **the internet** (web search when the phone is online).
+
+## Update: a look of its own, Scan text, and a voice ribbon
+
+Since first publishing this, I've rebuilt the app around three things: a design that's Mojo's own, a **Scan text** mode that turns Mirage into an OCR tool, and a listening animation that shows up over any app.
+
+![Mojo's new home screen, the talk button while listening, and an answer card over the phone's home screen](/blog/images/mojo-home-listening.jpg)
+
+**A look of its own.** My first redesign leaned too hard on Google: white pages, the four Google colours and a ring of coloured arcs around the mic. It looked like a copy, so I started again from Mojo's name and job. The brand is now a warm **coral → tangerine → sun** gradient with **lagoon teal** for buttons and switches, on white with warm off-white cards. The logo is four rounded sound bars. The talk button is a sunset disc with five white "voice bars": they breathe while waiting, dance with your voice while listening, ripple while thinking and bounce while speaking. Everything is plain Android views and a few hundred lines of custom drawing, with no UI libraries.
+
+**A voice ribbon instead of a light bar.** While Mojo listens, three layered waves flow along the bottom edge of the screen. Their height follows the live microphone level, so the ribbon rises when you speak. Above it, a card shows "Listening…", then what you said, then Mojo's answer. It works inside the app and over other apps. If you press Home mid-question, the card follows you to the home screen. Tapping the card stops Mojo and dismisses it.
+
+![Mojo listening, answering a weather question in the app, then answering a web question over the home screen](/blog/videos/mojo-listening-light.mp4)
+
+**Scan text.** Mirage already returns every piece of text it sees with a box around it. Scan text turns that into something useful: take a photo, and Mojo highlights the text on it and lists the lines in reading order, with **Copy** and **Share**. Tap a highlight to copy just that line, or fold the sheet down to see the whole photo. The **Objects** mode next to it draws labelled boxes around things Mirage recognises.
+
+![Scan text reading a receipt with Copy and Share, the same result folded down, and Objects mode boxing the milk label](/blog/images/mojo-scan-text-objects.jpg)
+
+![Scan text reading a receipt, copying one line, then Objects mode on the milk label](/blog/videos/mojo-scan-text.mp4)
+
+Before writing any app code, I tested the OCR approach on the PC with a 14-line receipt:
+
+- Raw Mirage output repeats itself ("GREEN LEAF CAFE" and also "CAFE") and splits lines, so Mojo merges overlapping boxes, keeps the longest text, then groups boxes into rows by height and reads them left to right.
+- Bigger photos didn't help (Mirage works at 512 px internally), and splitting the photo in halves gained only 2–4 points while doubling the time. One 768 px frame it is.
+- On the phone it found **all 14 lines, in order, in 2.8 seconds**, with **about 80–84% of words exactly right**. Its typical slip is digits: 45.00 can come back as 45.88. Check the numbers before you rely on them.
+
+![A tour of the new home screen and Settings](/blog/videos/mojo-new-look.mp4)
+
+*The screenshots and recordings further down are from the earlier build, before the redesign.*
 
 ## How Mojo is wired now
 
@@ -146,11 +174,15 @@ Mirage added 21.6 MB (about 51M parameters) to the app.
 2. **Test the docs.** The option names, the model bitmask and the NaN scores were all things I found by running the code, not by reading the docs.
 3. **Don't send output through a model that doesn't need it.** Speaking Mirage's description directly was faster and more accurate than having Qwen rewrite it.
 4. **On a small phone, prompt length is latency.** Cutting the snippets saved more time than any other change.
+5. **Borrowing a look isn't a design.** The Google-coloured version came together fast, but it didn't feel like Mojo. Starting from what the app does (voice) gave it the sound-bar logo and the voice ribbon.
 
 ## Where it lives in the code
 
 - `Vision.kt`: camera capture, Mirage options and parsing (including the NaN cleanup)
-- `LookActivity.kt`: the live camera box view (scans go through `Assistant.describeFrame` on the engine thread)
+- `LookActivity.kt`: the Mirage camera screen with Objects and Text modes (scans go through `Assistant.describeFrame` on the engine thread)
+- `Ocr.kt`: Scan text, turning Mirage's text boxes into clean lines in reading order
+- `MojoVisuals.kt` / `MojoOverlay.kt`: the talk button, the voice ribbon and the listening card over other apps
+- `Ui.kt`: the design system (colours, cards, switches, segmented controls)
 - `WebSearch.kt`: DuckDuckGo, Wikipedia and wttr.in, with no keys
 - `Brain.kt` / `Assistant.kt`: routing between commands, vision, web and Qwen
 - `cpp/mojo_jni.cpp`: the JNI bridge (`Java_com_mojo_assistant_Cactus_describe`)
