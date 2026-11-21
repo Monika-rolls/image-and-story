@@ -1,5 +1,23 @@
 [
   {
+    "slug": "offline-phone-assistant-eyes-and-internet",
+    "title": "Giving My Offline Phone Assistant Eyes and the Internet",
+    "date": "2026-11-21",
+    "excerpt": "Mojo, my on-device Android voice assistant, can now look through the camera with Cactus Mirage, a 21.6 MB vision model, and search the web when it's online, without any API keys. The photos never leave the phone.",
+    "tags": [
+      "on-device AI",
+      "Android",
+      "vision",
+      "Cactus",
+      "voice assistant",
+      "edge AI"
+    ],
+    "cover": "/blog/images/mojo-architecture.svg",
+    "link": "",
+    "draft": false,
+    "readingTime": 7
+  },
+  {
     "slug": "tiny-models-real-games",
     "title": "Tiny Models, Real Games: A 21,699-Parameter Dino Policy, Perfect Tic-Tac-Toe, and Dino on an ESP32",
     "date": "2026-11-07",

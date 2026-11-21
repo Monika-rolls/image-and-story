@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 560" role="img" aria-labelledby="t d">
+  <title id="t">From Mirage's JSON to Mojo's spoken sentence</title>
+  <desc id="d">Mirage returns structured JSON with a scene, objects with scores, text and a short reasoning line. One object score is printed as -nan(ind), which Mojo replaces with 0 before parsing. Mojo builds the sentence from the scene setting and the reasoning gist: "It looks like a bedroom. I can see a bed with floral bedspread, a wardrobe, a lamp, a nightstand and a television." Mirage takes 0.8 seconds on the phone and the reply starts 1.4 seconds after you stop speaking.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#9a5af2"/>
+    </marker>
+  </defs>
+  <rect width="1280" height="560" rx="18" fill="#0f0e1a"/>
+  <g font-family="'Space Grotesk','Segoe UI',Arial,sans-serif" fill="#eeedf5">
+    <text x="40" y="52" font-size="22" font-weight="700">What Mirage returns</text>
+    <text x="290" y="52" font-size="17" fill="#a29fb8">(JSON, trimmed)</text>
+    <rect x="40" y="70" width="640" height="440" rx="14" fill="#1c1a2e" stroke="#352848" stroke-width="2"/>
+    <g font-family="Consolas,'Cascadia Mono','Courier New',monospace" font-size="19">
+      <text x="64" y="110" fill="#a29fb8">{</text>
+      <text x="84" y="142"><tspan fill="#c9a8ff">"scene"</tspan>: { <tspan fill="#c9a8ff">"setting"</tspan>: <tspan fill="#9a5af2" font-weight="700">"bedroom"</tspan>,</text>
+      <text x="200" y="170"><tspan fill="#c9a8ff">"lighting"</tspan>: "bright" },</text>
+      <text x="84" y="206"><tspan fill="#c9a8ff">"objects"</tspan>: [</text>
+      <text x="110" y="236">{ "name": "lamp", "score": 0.550 },</text>
+      <text x="110" y="264">{ "name": "bed",  "score": 0.538 },</text>
+      <text x="110" y="292">{ "name": "window", "score": <tspan fill="#e04fae" font-weight="700">-nan(ind)</tspan> },</text>
+      <text x="110" y="320" fill="#a29fb8">… ],</text>
+      <text x="84" y="356"><tspan fill="#c9a8ff">"text"</tspan>: [],</text>
+      <text x="84" y="392"><tspan fill="#c9a8ff">"reasoning"</tspan>: "lang: en |</text>
+      <text x="110" y="420" fill="#9a5af2" font-weight="700">bed with floral bedspread, wardrobe,</text>
+      <text x="110" y="448" fill="#9a5af2" font-weight="700">lamp, nightstand, television, …</text>
+      <text x="110" y="476" fill="#a29fb8">| bedrooms contain beds… "</text>
+      <text x="64" y="500" fill="#a29fb8">}</text>
+    </g>
+
+    <!-- NaN callout -->
+    <path d="M560 292 H720" stroke="#e04fae" stroke-width="2" stroke-dasharray="6 4" fill="none"/>
+    <rect x="720" y="262" width="250" height="62" rx="10" fill="#1c1a2e" stroke="#e04fae" stroke-width="2"/>
+    <text x="736" y="288" font-size="17" font-weight="700">not valid JSON</text>
+    <text x="736" y="312" font-size="16" fill="#a29fb8">replaced with 0 before parsing</text>
+
+    <!-- arrow to speech -->
+    <path d="M690 156 H880" stroke="#9a5af2" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+    <text x="700" y="132" font-size="15" fill="#a29fb8">built from the violet parts:</text>
+    <text x="700" y="184" font-size="15" fill="#a29fb8">setting + reasoning gist</text>
+
+    <text x="890" y="52" font-size="22" font-weight="700">What Mojo says</text>
+    <rect x="890" y="70" width="350" height="174" rx="14" fill="#1c1a2e" stroke="#9a5af2" stroke-width="2.5"/>
+    <text x="912" y="110" font-size="20">“It looks like a bedroom.</text>
+    <text x="912" y="140" font-size="20">I can see a bed with floral</text>
+    <text x="912" y="170" font-size="20">bedspread, a wardrobe, a lamp,</text>
+    <text x="912" y="200" font-size="20">a nightstand and a television.”</text>
+
+    <text x="890" y="380" font-size="40" font-weight="700">0.8 s</text>
+    <text x="1010" y="378" font-size="17" fill="#a29fb8">Mirage on the phone</text>
+    <text x="890" y="440" font-size="40" font-weight="700">1.4 s</text>
+    <text x="1010" y="438" font-size="17" fill="#a29fb8">end of speech → voice</text>
+    <text x="890" y="494" font-size="17" fill="#a29fb8">No Qwen in this path, so nothing</text>
+    <text x="890" y="518" font-size="17" fill="#a29fb8">gets added that isn't in the picture.</text>
+  </g>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 540" role="img" aria-labelledby="t d">
+  <title id="t">Time from end of speech to Mojo's voice, measured on the phone</title>
+  <desc id="d">Phone commands such as flashlight and battery: 22 to 57 milliseconds. What do you see: 1.4 seconds. Read this: 1.4 to 1.6 seconds. Weather: 2.3 to 2.6 seconds, needs internet. Web question: about 5 to 5.5 seconds, needs internet; it was 7.5 seconds before the prompt was shortened.</desc>
+  <rect width="1280" height="540" rx="18" fill="#161523"/>
+  <g font-family="'Space Grotesk','Segoe UI',Arial,sans-serif">
+    <text x="40" y="52" font-size="24" font-weight="700" fill="#eeedf5">End of speech → Mojo's voice</text>
+    <text x="40" y="82" font-size="17" fill="#a29fb8">Measured on a Realme RMX2161 (Helio G95). Bars show the typical time; labels give the range.</text>
+
+    <!-- legend -->
+    <rect x="860" y="38" width="16" height="16" rx="3" fill="#9a5af2"/>
+    <text x="884" y="52" font-size="17" fill="#a29fb8">on the phone</text>
+    <rect x="1020" y="38" width="16" height="16" rx="3" fill="#e04fae"/>
+    <text x="1044" y="52" font-size="17" fill="#a29fb8">needs internet</text>
+
+    <!-- grid: x0=300, 1 s = 150 px, 0..6 s -->
+    <g stroke="#2a2640" stroke-width="1">
+      <line x1="300" y1="110" x2="300" y2="460"/>
+      <line x1="450" y1="110" x2="450" y2="460"/>
+      <line x1="600" y1="110" x2="600" y2="460"/>
+      <line x1="750" y1="110" x2="750" y2="460"/>
+      <line x1="900" y1="110" x2="900" y2="460"/>
+      <line x1="1050" y1="110" x2="1050" y2="460"/>
+      <line x1="1200" y1="110" x2="1200" y2="460"/>
+    </g>
+    <g font-size="16" fill="#8b88a3" text-anchor="middle">
+      <text x="300" y="486">0 s</text><text x="450" y="486">1 s</text><text x="600" y="486">2 s</text>
+      <text x="750" y="486">3 s</text><text x="900" y="486">4 s</text><text x="1050" y="486">5 s</text><text x="1200" y="486">6 s</text>
+    </g>
+
+    <!-- row labels -->
+    <g font-size="19" fill="#eeedf5" text-anchor="end">
+      <text x="282" y="148">Phone commands</text>
+      <text x="282" y="218">“What do you see?”</text>
+      <text x="282" y="288">“Read this”</text>
+      <text x="282" y="358">Weather</text>
+      <text x="282" y="428">Web question</text>
+    </g>
+
+    <!-- bars (thickness 34, 4px rounded data end) -->
+    <path d="M300 125 H306 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 H300 z" fill="#9a5af2"/>
+    <path d="M300 195 H506 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 H300 z" fill="#9a5af2"/>
+    <path d="M300 265 H521 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 H300 z" fill="#9a5af2"/>
+    <path d="M300 335 H656 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 H300 z" fill="#e04fae"/>
+    <path d="M300 405 H1076 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 H300 z" fill="#e04fae"/>
+
+    <!-- value labels -->
+    <g font-size="18" fill="#eeedf5">
+      <text x="324" y="148">22–57 ms</text>
+      <text x="524" y="218">1.4 s</text>
+      <text x="539" y="288">1.4–1.6 s</text>
+      <text x="674" y="358">2.3–2.6 s</text>
+      <text x="1092" y="428">~5–5.5 s</text>
+    </g>
+    <text x="40" y="524" font-size="16" fill="#a29fb8">Web answers were ~7.5 s before Qwen got 3 short snippets instead of 4 long ones.</text>
+  </g>
+</svg>

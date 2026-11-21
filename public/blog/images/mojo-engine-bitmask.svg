@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" role="img" aria-labelledby="t d">
+  <title id="t">One Cactus engine, three models: cactus_models() goes 2, 3, 7</title>
+  <desc id="d">Loading whistle.cact sets the speech bit (value 2). Loading needle3.cact adds the text bit (value 3). Loading mirage.cact adds the vision bit (value 7). All three models stay loaded together.</desc>
+  <rect width="1280" height="360" rx="18" fill="#0f0e1a"/>
+  <g font-family="'Space Grotesk','Segoe UI',Arial,sans-serif" fill="#eeedf5">
+    <text x="40" y="54" font-size="24" font-weight="700">One engine, three models</text>
+    <text x="40" y="84" font-size="18" fill="#a29fb8">cactus_models() is a bitmask: vision = 4, speech = 2, text = 1</text>
+
+    <!-- step 1 -->
+    <text x="40" y="146" font-size="19" fill="#a29fb8">load whistle.cact</text>
+    <rect x="40" y="166" width="110" height="70" rx="10" fill="#1c1a2e" stroke="#352848" stroke-width="2"/>
+    <text x="95" y="208" font-size="18" fill="#6f6b86" text-anchor="middle">vision</text>
+    <rect x="158" y="166" width="110" height="70" rx="10" fill="#9a5af2"/>
+    <text x="213" y="208" font-size="18" font-weight="700" fill="#0f0e1a" text-anchor="middle">speech</text>
+    <rect x="276" y="166" width="110" height="70" rx="10" fill="#1c1a2e" stroke="#352848" stroke-width="2"/>
+    <text x="331" y="208" font-size="18" fill="#6f6b86" text-anchor="middle">text</text>
+    <text x="40" y="290" font-size="22" fill="#a29fb8">models =</text>
+    <text x="142" y="292" font-size="40" font-weight="700">2</text>
+
+    <text x="426" y="210" font-size="34" fill="#a29fb8">→</text>
+
+    <!-- step 2 -->
+    <text x="470" y="146" font-size="19" fill="#a29fb8">+ needle3.cact</text>
+    <rect x="470" y="166" width="110" height="70" rx="10" fill="#1c1a2e" stroke="#352848" stroke-width="2"/>
+    <text x="525" y="208" font-size="18" fill="#6f6b86" text-anchor="middle">vision</text>
+    <rect x="588" y="166" width="110" height="70" rx="10" fill="#9a5af2"/>
+    <text x="643" y="208" font-size="18" font-weight="700" fill="#0f0e1a" text-anchor="middle">speech</text>
+    <rect x="706" y="166" width="110" height="70" rx="10" fill="#9a5af2"/>
+    <text x="761" y="208" font-size="18" font-weight="700" fill="#0f0e1a" text-anchor="middle">text</text>
+    <text x="470" y="290" font-size="22" fill="#a29fb8">models =</text>
+    <text x="572" y="292" font-size="40" font-weight="700">3</text>
+
+    <text x="856" y="210" font-size="34" fill="#a29fb8">→</text>
+
+    <!-- step 3 -->
+    <text x="900" y="146" font-size="19" fill="#a29fb8">+ mirage.cact (21.6 MB)</text>
+    <rect x="900" y="166" width="110" height="70" rx="10" fill="#9a5af2" stroke="#eeedf5" stroke-width="2"/>
+    <text x="955" y="208" font-size="18" font-weight="700" fill="#0f0e1a" text-anchor="middle">vision</text>
+    <rect x="1018" y="166" width="110" height="70" rx="10" fill="#9a5af2"/>
+    <text x="1073" y="208" font-size="18" font-weight="700" fill="#0f0e1a" text-anchor="middle">speech</text>
+    <rect x="1136" y="166" width="110" height="70" rx="10" fill="#9a5af2"/>
+    <text x="1191" y="208" font-size="18" font-weight="700" fill="#0f0e1a" text-anchor="middle">text</text>
+    <text x="900" y="290" font-size="22" fill="#a29fb8">models =</text>
+    <text x="1002" y="292" font-size="40" font-weight="700">7</text>
+    <text x="1040" y="290" font-size="18" fill="#a29fb8">all three, together</text>
+
+    <text x="40" y="336" font-size="16" fill="#a29fb8">Checked on the phone: Whistle and Needle 3 still transcribe and call tools correctly after Mirage runs.</text>
+  </g>
+</svg>
