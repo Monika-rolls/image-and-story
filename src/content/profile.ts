@@ -24,6 +24,29 @@ export type Featured = {
 
 export const featured: Featured[] = [
   {
+    title: "Hark",
+    kind: "Side project · Voice AI",
+    summary:
+      "An audiobook you can interrupt. Say “wait, what did that mean?” and it answers from the passage you just heard, found by where you are in the audio rather than by your words, then picks up where it left off. Nothing past your position is ever used.",
+    readouts: [
+      { value: "90 s", label: "read back from the playhead, never ahead" },
+      { value: "4.85 h", label: "book indexed in ~12 min" },
+      { value: "3", label: "voice engines, one protocol" },
+    ],
+    media: {
+      type: "image",
+      src: "/blog/images/hark-answer.jpg",
+      alt: "Hark playing Calculus Made Easy, with its answer to “what did it mean?” in the conversation",
+      aspect: "16 / 9",
+    },
+    links: [
+      { label: "Read the write-up", href: "/blog/hark-audiobook-you-can-interrupt" },
+      { label: "Try it", href: "https://hark-130328189871.asia-southeast1.run.app" },
+      { label: "GitHub", href: "https://github.com/Monika-rolls/hark" },
+    ],
+    stack: ["FastAPI", "Gemini", "Chirp", "AssemblyAI", "Cloud Run", "Redis"],
+  },
+  {
     title: "Mojo",
     kind: "Side project · Android",
     summary:

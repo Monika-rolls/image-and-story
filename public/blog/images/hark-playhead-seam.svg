@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 560" role="img" aria-labelledby="t d">
+  <title id="t">How the playhead reaches an agent that cannot see the page</title>
+  <desc id="d">The browser plays the book and sends its position to the Hark backend once a second, which stores it. The listener's voice goes to the voice agent. The agent calls a Hark tool over HTTP; the tool reads the stored position, cuts the passage around it and answers. If the listener asked to go somewhere, the tool stores a pending jump, and the next once-a-second reply carries it back to the browser.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#77716a"/>
+    </marker>
+    <marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#bf4a17"/>
+    </marker>
+  </defs>
+  <rect width="1280" height="560" rx="18" fill="#f7f6f2"/>
+  <g font-family="Geist,'Segoe UI',Arial,sans-serif" fill="#1f1d1a">
+
+    <!-- browser -->
+    <rect x="50" y="150" width="290" height="260" rx="14" fill="#ffffff" stroke="#c9c4ba" stroke-width="2"/>
+    <text x="195" y="192" font-size="22" font-weight="500" text-anchor="middle">Browser</text>
+    <text x="195" y="226" font-size="16" fill="#5f5a54" text-anchor="middle">the book: &lt;audio&gt;</text>
+    <text x="195" y="252" font-size="16" fill="#5f5a54" text-anchor="middle">pauses while you talk</text>
+    <text x="195" y="290" font-size="16" fill="#5f5a54" text-anchor="middle">microphone with</text>
+    <text x="195" y="314" font-size="16" fill="#5f5a54" text-anchor="middle">echo cancellation</text>
+    <text x="195" y="374" font-size="15" fill="#77716a" text-anchor="middle" font-family="'Geist Mono',Consolas,monospace">notes in localStorage</text>
+
+    <!-- voice agent -->
+    <rect x="495" y="40" width="290" height="150" rx="14" fill="#ffffff" stroke="#c9c4ba" stroke-width="2"/>
+    <text x="640" y="84" font-size="22" font-weight="500" text-anchor="middle">Voice engine</text>
+    <text x="640" y="116" font-size="16" fill="#5f5a54" text-anchor="middle">speech to text · model · voice</text>
+    <text x="640" y="146" font-size="15" fill="#77716a" text-anchor="middle">AssemblyAI, Google, or local</text>
+    <text x="640" y="170" font-size="15" fill="#bf4a17" text-anchor="middle">cannot see the page</text>
+
+    <!-- backend -->
+    <rect x="495" y="300" width="290" height="210" rx="14" fill="#ffffff" stroke="#c9c4ba" stroke-width="2"/>
+    <text x="640" y="342" font-size="22" font-weight="500" text-anchor="middle">Hark backend</text>
+    <text x="640" y="376" font-size="16" fill="#5f5a54" text-anchor="middle" font-family="'Geist Mono',Consolas,monospace">/api/playhead</text>
+    <text x="640" y="402" font-size="16" fill="#5f5a54" text-anchor="middle" font-family="'Geist Mono',Consolas,monospace">/tools/passage_at_playhead</text>
+    <text x="640" y="428" font-size="16" fill="#5f5a54" text-anchor="middle" font-family="'Geist Mono',Consolas,monospace">/tools/go_to_topic …</text>
+    <text x="640" y="476" font-size="15" fill="#77716a" text-anchor="middle">FastAPI on Cloud Run</text>
+
+    <!-- store -->
+    <rect x="940" y="300" width="290" height="210" rx="14" fill="#ffffff" stroke="#bf4a17" stroke-width="2"/>
+    <text x="1085" y="342" font-size="22" font-weight="500" text-anchor="middle">Shared state</text>
+    <text x="1085" y="380" font-size="16" fill="#5f5a54" text-anchor="middle">playhead, per listener</text>
+    <text x="1085" y="406" font-size="16" fill="#5f5a54" text-anchor="middle">pending jump</text>
+    <text x="1085" y="432" font-size="16" fill="#5f5a54" text-anchor="middle">book index</text>
+    <text x="1085" y="476" font-size="15" fill="#77716a" text-anchor="middle">Redis, or one process's memory</text>
+
+    <!-- arrows -->
+    <path d="M340 200 C 410 160, 430 120, 490 115" fill="none" stroke="#77716a" stroke-width="2.5" marker-end="url(#a)"/>
+    <text x="352" y="138" font-size="15" fill="#5f5a54">your voice</text>
+
+    <path d="M640 194 L640 294" fill="none" stroke="#77716a" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#a)"/>
+    <text x="652" y="250" font-size="15" fill="#5f5a54">tool call over HTTP</text>
+
+    <path d="M340 340 L489 360" fill="none" stroke="#bf4a17" stroke-width="2.5" marker-end="url(#ap)"/>
+    <text x="352" y="318" font-size="15" fill="#bf4a17">position, every second</text>
+
+    <path d="M495 470 C 430 470, 400 440, 346 400" fill="none" stroke="#bf4a17" stroke-width="2.5" marker-end="url(#ap)"/>
+    <text x="360" y="502" font-size="15" fill="#bf4a17">a pending jump</text>
+    <text x="360" y="522" font-size="15" fill="#bf4a17">rides the reply</text>
+
+    <path d="M785 380 L934 380" fill="none" stroke="#77716a" stroke-width="2.5" marker-end="url(#a)" marker-start="url(#a)"/>
+    <text x="860" y="368" font-size="15" fill="#5f5a54" text-anchor="middle">read / write</text>
+  </g>
+</svg>

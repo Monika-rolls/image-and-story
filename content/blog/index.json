@@ -1,5 +1,23 @@
 [
   {
+    "slug": "hark-audiobook-you-can-interrupt",
+    "title": "Hark: An Audiobook You Can Interrupt",
+    "date": "2026-11-21",
+    "excerpt": "Say \"wait, what did that mean?\" and Hark answers from the passage you just heard, then picks up where it left off. The trick is that the question names no topic, so Hark looks up the answer by where you are in the audio, not by your words.",
+    "tags": [
+      "voice AI",
+      "RAG",
+      "audiobooks",
+      "Gemini",
+      "Cloud Run",
+      "learning"
+    ],
+    "cover": "/blog/images/hark-answer.jpg",
+    "link": "https://hark-130328189871.asia-southeast1.run.app",
+    "draft": false,
+    "readingTime": 11
+  },
+  {
     "slug": "offline-phone-assistant-eyes-and-internet",
     "title": "Mojo Can See, Read, and Search: An Offline Android Assistant",
     "date": "2026-11-21",
