@@ -1,9 +1,9 @@
 [
   {
     "slug": "offline-phone-assistant-eyes-and-internet",
-    "title": "Giving My Offline Phone Assistant Eyes and the Internet",
+    "title": "Mojo Can See, Read, and Search: An Offline Android Assistant",
     "date": "2026-11-21",
-    "excerpt": "Mojo, my on-device Android voice assistant, can now look through the camera with Cactus Mirage, read text from photos, and search the web when it's online, without any API keys. Updated with a redesign of its own and a voice-ribbon listening animation.",
+    "excerpt": "Mojo runs on my Android phone, using Cactus Mirage for camera descriptions and OCR, and web search when online. Here are the routing choices, measured response times, and limits, including OCR digit errors and offline hallucinations.",
     "tags": [
       "on-device AI",
       "Android",
@@ -15,7 +15,7 @@
     "cover": "/blog/images/mojo-home-listening.jpg",
     "link": "",
     "draft": false,
-    "readingTime": 10
+    "readingTime": 8
   },
   {
     "slug": "tiny-models-real-games",
