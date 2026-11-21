@@ -23,7 +23,13 @@ Every request starts the same way: Whistle turns speech into text, and a router 
 
 ![How Mojo is wired: Whistle, a router, then phone actions, camera plus Mirage, web search plus Qwen, or Qwen from memory, all ending in the Woof voice](/blog/images/mojo-architecture.svg)
 
-*Demo videos of Mojo working on the phone are coming soon.*
+## Watch it first
+
+**The basics, all on the phone:** flashlight, battery, time and a Qwen answer, from recorded voice clips fed through the app (screen recording, no sound):
+
+![Mojo handling voice commands on the phone](/blog/videos/mojo-voice-commands.mp4)
+
+*Videos of "Hey Mojo, what do you see?" on the live camera are coming soon.*
 
 ## Part 1: Eyes
 
@@ -46,6 +52,16 @@ Here's the test label I used, followed by Mojo's log reading it:
 Mojo said: *"It says: FRESH MILK. Best before 12 Dec 2026. Price 3.49"*, 1.4 seconds after I stopped speaking.
 
 On a photo of a bedroom, "what do you see" gave: *"It looks like a bedroom. I can see a bed with floral bedspread, a wardrobe, a lamp, a nightstand and a television."* (I'm not posting that photo. It's my room.)
+
+### Seeing what Mirage sees
+
+Voice answers hide what the model actually found, so I added a **"Mirage: see with boxes"** button to the app. It opens a live camera view. Tap **Scan**, or turn on **Live** to keep scanning, and Mirage marks everything it found: objects in purple with a confidence score, and text in green. The frames go through the same engine thread as voice commands, so the two never run Mirage at the same time.
+
+Here it is on the test label. A repeat scan takes about 0.8 s:
+
+![Mirage drawing labelled boxes on the test label](/blog/videos/mojo-mirage-boxes-label.mp4)
+
+Testing also settled the box format: `[x1, y1, x2, y2]` on a 0–1000 scale of the image. The blue square, at 600–820 px across a 900 px image, came back as 661–918.
 
 ### Finding out what Mirage actually is
 
@@ -83,6 +99,14 @@ A setting picks when this happens: **Off**, **When needed** (the default) or **A
 ![Mojo's log: a web search with three sources and a 5,463 ms response](/blog/images/mojo-web-search.png)
 
 *"Search for who won the 2026 world cup"* gave *"Spain won the 2026 FIFA World Cup."* The sources were en.wikipedia.org (twice) and worldcupwiki.com. *"What's the weather in London"* gave *"In London, it's clear, 3 degrees, feels like 0 degrees, wind 4 kilometres an hour."*
+
+"Read this", the weather and a web search, one after another:
+
+![Mojo reading a label, giving the weather and searching the web](/blog/videos/mojo-read-weather-web.mp4)
+
+The same question online, then with Wi-Fi off. Online, the answer comes from the web in 5.7 s. Offline, Qwen answers from memory, and the answer is *"The winner of the 2026 World Cup is ... [insert name]."* That shows why the web matters:
+
+![Mojo answering the same question online and offline](/blog/videos/mojo-online-vs-offline.mp4)
 
 ### The "I guess today" bug
 
@@ -126,6 +150,7 @@ Mirage added 21.6 MB (about 51M parameters) to the app.
 ## Where it lives in the code
 
 - `Vision.kt`: camera capture, Mirage options and parsing (including the NaN cleanup)
+- `LookActivity.kt`: the live camera box view (scans go through `Assistant.describeFrame` on the engine thread)
 - `WebSearch.kt`: DuckDuckGo, Wikipedia and wttr.in, with no keys
 - `Brain.kt` / `Assistant.kt`: routing between commands, vision, web and Qwen
 - `cpp/mojo_jni.cpp`: the JNI bridge (`Java_com_mojo_assistant_Cactus_describe`)
